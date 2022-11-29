@@ -6,3 +6,9 @@ export_presets.cfg
 
 # Mono-specific ignores
 .mono/
+
+.godot/editor/
+
+.godot/mono/temp/bin/Debug/
+
+.godot/

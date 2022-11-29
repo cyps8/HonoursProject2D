@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjyovn8oxh0rm"]
+
+[ext_resource type="Texture2D" uid="uid://c5pey2diyw80b" path="res://Assets/Art/Character/Square.png" id="1_rvw4u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_abi2q"]
+size = Vector2(20, 102)
+
+[node name="Leg" type="RigidBody2D"]
+collision_layer = 2
+continuous_cd = 1
+freeze = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.04, 0.2)
+texture = ExtResource("1_rvw4u")
+offset = Vector2(0, 200)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 40)
+shape = SubResource("RectangleShape2D_abi2q")

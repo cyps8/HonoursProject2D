@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://pu2sb055rdnr"]
+
+[ext_resource type="Script" path="res://Scripts/CharacterCreator.cs" id="1_pbxyo"]
+[ext_resource type="PackedScene" uid="uid://cjyovn8oxh0rm" path="res://Instances/Leg.tscn" id="2_2i8tl"]
+
+[node name="CharacterCreator" type="Node2D"]
+script = ExtResource("1_pbxyo")
+LegIns = ExtResource("2_2i8tl")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="ButtonScreen" type="Button" parent="HUD"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ButtonAddLeg" type="Button" parent="HUD"]
+offset_left = 739.0
+offset_top = 141.0
+offset_right = 841.0
+offset_bottom = 244.0
+text = "LEG"
+
+[node name="ButtonPlay" type="Button" parent="HUD"]
+offset_left = 520.0
+offset_top = 552.0
+offset_right = 648.0
+offset_bottom = 615.0
+text = "Play"
+
+[connection signal="pressed" from="HUD/ButtonScreen" to="." method="BPScreen"]
+[connection signal="pressed" from="HUD/ButtonAddLeg" to="." method="BPAddLeg"]
+[connection signal="pressed" from="HUD/ButtonPlay" to="." method="BPPlay"]
