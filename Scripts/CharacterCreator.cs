@@ -31,7 +31,7 @@ public partial class CharacterCreator : Node2D
 	{
 		selectedCharacterRef = GameManager.instance.playerCharacter;
 
-		var space = GetWorld2d().DirectSpaceState;
+		var space = GetWorld2D().DirectSpaceState;
 
 		PhysicsPointQueryParameters2D query = new PhysicsPointQueryParameters2D();
 
