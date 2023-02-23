@@ -1,14 +1,68 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjyovn8oxh0rm"]
+[gd_scene load_steps=8 format=3 uid="uid://cjyovn8oxh0rm"]
 
+[ext_resource type="Script" path="res://Scripts/Leg.cs" id="1_e0755"]
 [ext_resource type="Texture2D" uid="uid://c5pey2diyw80b" path="res://Assets/Art/Character/Square.png" id="1_rvw4u"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_abi2q"]
-size = Vector2(20, 102)
+[sub_resource type="CircleShape2D" id="CircleShape2D_jjpv1"]
+radius = 91.0494
+
+[sub_resource type="Animation" id="Animation_f6kvh"]
+resource_name = "Walk"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.1, -0.40303, -0.41583, -0.1, 0.00847262, 0.1, 0.00318331, 0, -0.1, -0.40943, 0.1, 0.416183, 0.416183, -0.1, -0.00727361, 0.1, -0.0019843, 0, -0.1, 0.409783, 0.25, 0),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8)
+}
+
+[sub_resource type="Animation" id="Animation_0s36k"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_iiqib"]
+resource_name = "Idle"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sp6vf"]
+_data = {
+"Idle": SubResource("Animation_iiqib"),
+"RESET": SubResource("Animation_0s36k"),
+"Walk": SubResource("Animation_f6kvh")
+}
 
 [node name="Leg" type="RigidBody2D"]
 collision_layer = 2
 continuous_cd = 1
+lock_rotation = true
 freeze = true
+script = ExtResource("1_e0755")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.04, 0.2)
@@ -16,5 +70,10 @@ texture = ExtResource("1_rvw4u")
 offset = Vector2(0, 200)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 40)
-shape = SubResource("RectangleShape2D_abi2q")
+shape = SubResource("CircleShape2D_jjpv1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_default_blend_time = 0.26
+libraries = {
+"": SubResource("AnimationLibrary_sp6vf")
+}

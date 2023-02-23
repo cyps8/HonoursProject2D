@@ -8,7 +8,6 @@ radius = 50.01
 
 [node name="Character" type="RigidBody2D" groups=["Character"]]
 collision_layer = 10
-continuous_cd = 1
 freeze = true
 script = ExtResource("1_uchlq")
 
@@ -18,3 +17,5 @@ texture = ExtResource("1_qcyd1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_5qgql")
+
+[node name="Camera2D" type="Camera2D" parent="."]

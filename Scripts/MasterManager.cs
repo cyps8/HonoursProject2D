@@ -10,7 +10,7 @@ public enum SceneName
 public partial class MasterManager : Node
 {
 	[Export]
-    public PackedScene game;
+	public PackedScene game;
 
 	[Export]
 	public PackedScene menu;
@@ -25,20 +25,28 @@ public partial class MasterManager : Node
 	}
 
 	public void ChangeScene(SceneName _sceneName)
-    {
-        GetChild(0).QueueFree();
+	{
+		GetChild(0).QueueFree();
 
-        PackedScene nextScene = new PackedScene();
+		PackedScene nextScene = new PackedScene();
 
-        if (_sceneName == SceneName.MENU)
-        {
+		if (_sceneName == SceneName.MENU)
+		{
 			nextScene = menu;
 		}
-        else if (_sceneName == SceneName.GAME)
-        {
+		else if (_sceneName == SceneName.GAME)
+		{
 			nextScene = game; 
 		}
-        
-        AddChild(nextScene.Instantiate());
-    }
+		
+		AddChild(nextScene.Instantiate());
+	}
+
+	public override void _Process(double delta)
+	{
+		if (Input.IsActionPressed("Reset"))
+		{
+			ChangeScene(SceneName.GAME);
+		}
+	}
 }

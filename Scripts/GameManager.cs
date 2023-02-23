@@ -1,6 +1,8 @@
 using Godot;
 using System;
 
+public enum Mode { PlayMode, EditMode }
+
 public partial class GameManager : Node2D
 {
 	public static GameManager instance;
@@ -9,6 +11,8 @@ public partial class GameManager : Node2D
 
 	public Character playerCharacter;
 
+	Mode currentMode = Mode.EditMode;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -16,8 +20,12 @@ public partial class GameManager : Node2D
 		{
 			instance = this;
 		}
+		else
+		{
+			instance = this;
+		}
 
-		// creat character
+		// create character
 		playerCharacter = (Character)characterIns.Instantiate();
 		AddChild(playerCharacter);
 		playerCharacter.Position = new Vector2(300, 300);
@@ -27,4 +35,15 @@ public partial class GameManager : Node2D
 	public override void _Process(double delta)
 	{
 	}
+
+	public Mode GetMode() 
+	{  
+		return currentMode;
+	}
+
+	public void SetMode(Mode _newMode)
+	{
+		currentMode = _newMode;
+	}
+	
 }

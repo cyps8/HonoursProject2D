@@ -10,9 +10,12 @@ public partial class CharacterCreator : Node2D
 
 	Character selectedCharacterRef;
 
+	CanvasLayer hud;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		hud = GetNode<CanvasLayer>("HUD");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -46,7 +49,7 @@ public partial class CharacterCreator : Node2D
 			if (placeLeg)
 			{
 				placeLeg = false;
-				var leg = (RigidBody2D)LegIns.Instantiate();
+				var leg = (Leg)LegIns.Instantiate();
 				leg.Position = GetGlobalMousePosition() - selectedCharacterRef.Position;
 				selectedCharacterRef.AddChild(leg);
 				selectedCharacterRef.legs.Add(leg);
@@ -62,5 +65,9 @@ public partial class CharacterCreator : Node2D
 	public void BPPlay()
 	{
 		selectedCharacterRef.Play();
+
+		hud.Visible = false;
+
+		GameManager.instance.SetMode(Mode.PlayMode);
 	}
 }
