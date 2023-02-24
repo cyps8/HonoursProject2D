@@ -17,20 +17,37 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ButtonAddLeg" type="Button" parent="HUD"]
-offset_left = 739.0
-offset_top = 141.0
-offset_right = 841.0
-offset_bottom = 244.0
-text = "LEG"
-
 [node name="ButtonPlay" type="Button" parent="HUD"]
-offset_left = 520.0
-offset_top = 552.0
-offset_right = 648.0
-offset_bottom = 615.0
+offset_left = 42.0
+offset_top = 547.0
+offset_right = 170.0
+offset_bottom = 610.0
 text = "Play"
 
+[node name="Panel" type="Panel" parent="HUD"]
+offset_left = 719.0
+offset_top = 145.0
+offset_right = 1092.0
+offset_bottom = 552.0
+
+[node name="TabBar" type="TabBar" parent="HUD/Panel"]
+offset_left = 8.0
+offset_top = 4.0
+offset_right = 158.0
+offset_bottom = 44.0
+tab_count = 2
+tab_0/title = "All"
+tab_1/title = "Legs"
+
+[node name="ButtonAddLeg" type="Button" parent="HUD/Panel"]
+offset_left = 11.0
+offset_top = 51.0
+offset_right = 113.0
+offset_bottom = 154.0
+text = "Leg
+"
+icon_alignment = 1
+
 [connection signal="pressed" from="HUD/ButtonScreen" to="." method="BPScreen"]
-[connection signal="pressed" from="HUD/ButtonAddLeg" to="." method="BPAddLeg"]
 [connection signal="pressed" from="HUD/ButtonPlay" to="." method="BPPlay"]
+[connection signal="pressed" from="HUD/Panel/ButtonAddLeg" to="." method="BPAddLeg"]

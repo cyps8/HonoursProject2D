@@ -24,9 +24,9 @@ public partial class Leg : RigidBody2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-        var space = GetWorld2D().DirectSpaceState;
+		var space = GetWorld2D().DirectSpaceState;
 
-        PhysicsRayQueryParameters2D query = new PhysicsRayQueryParameters2D();
+		PhysicsRayQueryParameters2D query = new PhysicsRayQueryParameters2D();
 
 		query.From = sprite.Position;
 
