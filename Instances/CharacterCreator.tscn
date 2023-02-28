@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://pu2sb055rdnr"]
 
 [ext_resource type="Script" path="res://Scripts/CharacterCreator.cs" id="1_pbxyo"]
-[ext_resource type="PackedScene" uid="uid://cjyovn8oxh0rm" path="res://Instances/Leg.tscn" id="2_2i8tl"]
+[ext_resource type="PackedScene" uid="uid://fuh6onk7u883" path="res://Instances/LegV3.tscn" id="2_0n4uj"]
 
 [node name="CharacterCreator" type="Node2D"]
 script = ExtResource("1_pbxyo")
-LegIns = ExtResource("2_2i8tl")
+LegIns = ExtResource("2_0n4uj")
 
 [node name="HUD" type="CanvasLayer" parent="."]
 

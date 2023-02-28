@@ -6,7 +6,7 @@ public partial class Leg : RigidBody2D
 {
 	AnimationPlayer animationPlayer;
 
-	Sprite2D sprite;
+	//Sprite2D sprite;
 
 	public AnimationPlayer GetAnimationPlayer()
 	{
@@ -18,25 +18,25 @@ public partial class Leg : RigidBody2D
 	{
 		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 
-		sprite = GetNode<Sprite2D>("Sprite2D");
+		//sprite = GetNode<Sprite2D>("Sprite2D");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		var space = GetWorld2D().DirectSpaceState;
+	// 	var space = GetWorld2D().DirectSpaceState;
 
-		PhysicsRayQueryParameters2D query = new PhysicsRayQueryParameters2D();
+	// 	PhysicsRayQueryParameters2D query = new PhysicsRayQueryParameters2D();
 
-		query.From = sprite.Position;
+	// 	//query.From = sprite.Position;
 
-		query.To = sprite.Position + (Vector2.Down * 500);
+	// 	//query.To = sprite.Position + (Vector2.Down * 500);
 
-		var result = space.IntersectRay(query);
+	// 	var result = space.IntersectRay(query);
 
-		if (result.Count > 0)
-		{
-			GD.Print("ooooo");
-		}
+	// 	if (result.Count > 0)
+	// 	{
+	// 		GD.Print("ooooo");
+	// 	}
 	}
 }
