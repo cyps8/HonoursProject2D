@@ -1,10 +1,10 @@
 using Godot;
 using System;
-using System.Collections.Generic;
+using Godot.Collections;
 
 public partial class Character : RigidBody2D
 {
-	public List<Leg> legs = new List<Leg>();
+	public Array<Leg> legs = new Array<Leg>();
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

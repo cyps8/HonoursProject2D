@@ -31,6 +31,7 @@ offset_right = 1092.0
 offset_bottom = 552.0
 
 [node name="TabBar" type="TabBar" parent="HUD/Panel"]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 4.0
 offset_right = 158.0
@@ -40,6 +41,7 @@ tab_0/title = "All"
 tab_1/title = "Legs"
 
 [node name="ButtonAddLeg" type="Button" parent="HUD/Panel"]
+layout_mode = 0
 offset_left = 11.0
 offset_top = 51.0
 offset_right = 113.0
