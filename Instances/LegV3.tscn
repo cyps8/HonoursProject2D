@@ -39,7 +39,7 @@ tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(-1.5708, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
 
@@ -75,25 +75,25 @@ tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(-1.5708, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
 
 [sub_resource type="Animation" id="Animation_f6kvh"]
 resource_name = "Walk"
-length = 1.4
+length = 1.05
 loop_mode = 1
 step = 0.05
 tracks/0/type = "bezier"
 tracks/0/imported = false
-tracks/0/enabled = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("TargetContainer/Target:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 2, 2, 2, 2, 2, 2, 2),
-"points": PackedFloat32Array(9, -0.25, 0, 0.25, 0, -8, -0.0333333, 2.41667, 0.0333333, -2.41667, -20, -0.0333333, -0.416667, 0.0333333, 0.416667, -2.99999, -0.0333333, -2.83333, 0.0333333, 2.83333, 14, -0.0333333, -3.08333, 0.0333333, 3.08333, 34, -0.0333333, -1, 0.0333333, 1, 26, -0.0333333, 2.08333, 0.0333333, -2.08333, 9, -0.0333333, 2.83333, 0, 0),
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4)
+"handle_modes": PackedInt32Array(2, 2, 2, 2, 2, 2, 2, 2),
+"points": PackedFloat32Array(9, 0, 0, 0.0333333, -2.83333, -8, -0.025, 2.41667, 0.025, -2.41667, -20, -0.025, -0.416668, 0.025, 0.416667, -2.99999, -0.025, -2.83333, 0.025, 2.83333, 14, -0.025, -3.08333, 0.025, 3.08333, 34, -0.025, -1, 0.025, 1, 26, -0.025, 2.08333, 0.025, -2.08333, 9, 0, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05)
 }
 tracks/1/type = "bezier"
 tracks/1/imported = false
@@ -102,20 +102,20 @@ tracks/1/path = NodePath("TargetContainer/Target:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 2, 2, 2, 2, 2, 2, 2),
-"points": PackedFloat32Array(75, -0.25, 0, 0.05, -0.588516, 58.0192, -0.0333333, 2.58174, 0.0333333, -2.58174, 44.0192, -0.0333333, 1.66667, 0.0333333, -1.66667, 38.0192, -0.0333333, 0.583333, 0.0333333, -0.583333, 37.0192, -0.0333333, -1.66667, 0.0333333, 1.66667, 58.0192, -0.0333333, -2, 0.0333333, 2, 61.0192, -0.0333333, -1.41667, 0.0333333, 1.41667, 75.0192, -0.0333333, -2.33333, 0, 0),
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4)
+"handle_modes": PackedInt32Array(2, 2, 2, 2, 2, 2, 2, 2),
+"points": PackedFloat32Array(101, 0, 0, 0.0333333, -7.16347, 58.0192, -0.025, 4.7484, 0.025, -4.7484, 44.0192, -0.025, 1.66667, 0.025, -1.66667, 38.0192, -0.025, 0.583333, 0.025, -0.583333, 37.0192, -0.025, -1.66667, 0.025, 1.66667, 58.0192, -0.025, -2, 0.025, 2, 61.0192, -0.025, -3.58173, 0.025, 3.58173, 101, 0, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05)
 }
 tracks/2/type = "bezier"
 tracks/2/imported = false
-tracks/2/enabled = false
+tracks/2/enabled = true
 tracks/2/path = NodePath("TargetContainer/Target:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "handle_modes": PackedInt32Array(2, 2, 2, 2, 2, 2, 2, 2),
-"points": PackedFloat32Array(0, 0, 0, 0.0333333, 0.0919207, 0.551524, -0.0333333, -0.08843, 0.0333333, 0.08843, 1.06116, -0.0333333, -0.0602139, 0.0333333, 0.0602139, 1.27409, -0.0333333, 0.0282162, 0.0333333, -0.0282162, 0.722566, -0.0333333, 0.141517, 0.0333333, -0.141517, -0.424115, -0.0333333, 0.0708313, 0.0333333, -0.0708313, -0.127409, -0.0333333, -0.0353429, 0.0333333, 0.0353429, 0, -0.0333333, -0.0212348, 0, 0),
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4)
+"points": PackedFloat32Array(-1.5708, 0, 0, 0.0333333, 0.0898845, -1.03149, -0.025, -0.0874119, 0.025, 0.0874119, -0.521853, -0.025, -0.0680679, 0.025, 0.0680678, -0.214676, -0.025, 0.0261799, 0.025, -0.0261799, -0.836013, -0.025, 0.148353, 0.025, -0.148353, -1.99491, -0.025, 0.0714131, 0.025, -0.0714131, -1.69297, -0.025, -0.0353429, 0.025, 0.0353429, -1.5708, 0, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05)
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sp6vf"]
@@ -198,3 +198,4 @@ internal_vertex_count = 13
 
 [node name="Target" type="Marker2D" parent="TargetContainer"]
 position = Vector2(9, 101)
+rotation = -1.5708
