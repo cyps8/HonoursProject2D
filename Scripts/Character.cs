@@ -40,7 +40,7 @@ public partial class Character : RigidBody2D
 			foreach (var leg in legs)
 			{
 				leg.GetAnimationPlayer().Play("Walk");
-				leg.GetAnimationPlayer().SpeedScale = Mathf.Sign(LinearVelocity.X);
+				leg.GetAnimationPlayer().SpeedScale = 2 * Mathf.Sign(LinearVelocity.X);
 			}
 		}
 		else
