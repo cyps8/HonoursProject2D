@@ -6,6 +6,8 @@ public partial class Leg : RigidBody2D
 {
 	AnimationPlayer animationPlayer;
 
+	bool BackLeg = false;
+
 	//Sprite2D sprite;
 
 	public AnimationPlayer GetAnimationPlayer()
@@ -19,6 +21,21 @@ public partial class Leg : RigidBody2D
 		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 
 		//sprite = GetNode<Sprite2D>("Sprite2D");
+	}
+
+	public void SetBackLeg()
+	{
+		Modulate = new Color(0.5f, 0.5f, 0.5f);
+
+		ZIndex = -1;
+
+		BackLeg = true;
+	}
+
+
+	public bool GetBackLeg()
+	{
+		return BackLeg;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

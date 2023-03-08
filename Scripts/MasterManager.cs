@@ -44,9 +44,6 @@ public partial class MasterManager : Node
 
 	public override void _Process(double delta)
 	{
-		if (Input.IsActionPressed("Reset"))
-		{
-			ChangeScene(SceneName.GAME);
-		}
+		
 	}
 }

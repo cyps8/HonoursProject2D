@@ -20,10 +20,6 @@ public partial class GameManager : Node2D
 		{
 			instance = this;
 		}
-		else
-		{
-			instance = this;
-		}
 
 		// create character
 		playerCharacter = (Character)characterIns.Instantiate();
@@ -34,7 +30,15 @@ public partial class GameManager : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-	}
+        if (Input.IsActionPressed("Reset") && currentMode != Mode.EditMode)
+        {
+            currentMode = Mode.EditMode;
+
+			CharacterCreator.instance.Reset();
+
+			playerCharacter.Reset();
+        }
+    }
 
 	public Mode GetMode() 
 	{  

@@ -2,13 +2,26 @@ using Godot;
 using System;
 using Godot.Collections;
 
+public enum PlayerState { Idle, Walking }
+
 public partial class Character : RigidBody2D
 {
 	public Array<Leg> legs = new Array<Leg>();
 
+	public PlayerState currentState;
+
+	float walkTimer;
+
+	[Export] public RigidBody2D part1;
+    [Export] public RigidBody2D part2;
+    [Export] public RigidBody2D part3;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		currentState = PlayerState.Idle;
+
+		walkTimer = 0;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -36,16 +49,32 @@ public partial class Character : RigidBody2D
 
 		if (velocity.Length() > 0)
 		{
-			LinearVelocity = (velocity.Normalized() * 200) + new Vector2(0, LinearVelocity.Y);
+			currentState = PlayerState.Walking;
+
+			walkTimer += (float)delta;
+
+			LinearVelocity = (velocity.Normalized() * 800) + new Vector2(0, LinearVelocity.Y);
 			foreach (var leg in legs)
 			{
 				leg.GetAnimationPlayer().Play("Walk");
 				leg.GetAnimationPlayer().SpeedScale = 2 * Mathf.Sign(LinearVelocity.X);
+
+				if (leg.GetBackLeg())
+				{
+					if (walkTimer < 0.25f)
+					{
+                        leg.GetAnimationPlayer().SpeedScale = 0;
+                    }
+                }
 			}
 		}
 		else
 		{
-			foreach (var leg in legs)
+            currentState = PlayerState.Idle;
+
+			walkTimer = 0f;
+
+            foreach (var leg in legs)
 			{
 				leg.GetAnimationPlayer().Play("Idle");
 			}
@@ -56,9 +85,30 @@ public partial class Character : RigidBody2D
 	{
 		Freeze = false;
 
-		foreach (var leg in legs)
+		part1.Freeze = false;
+        part2.Freeze = false;
+        part3.Freeze = false;
+
+        foreach (var leg in legs)
 		{
 			leg.Freeze = false;
 		}
+	}
+
+	public void Reset()
+	{
+		Freeze = true;
+
+		foreach (var leg in legs)
+		{
+			leg.Freeze = true;
+		}
+
+		//foreach (var leg in legs)
+		//{
+		//	RemoveChild(leg);
+		//}
+
+		//legs.Clear();
 	}
 }

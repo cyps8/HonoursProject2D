@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7qdufsk5unyl"]
+
+[ext_resource type="Texture2D" uid="uid://dynl1lgvlmo4b" path="res://Assets/Art/Character/Circle.png" id="2_y1jfk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5qgql"]
+radius = 50.01
+
+[node name="Character" type="RigidBody2D" groups=["Character"]]
+collision_layer = 10
+freeze = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_y1jfk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_5qgql")

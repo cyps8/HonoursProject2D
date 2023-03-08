@@ -1,0 +1,23 @@
+[gd_resource type="SkeletonModificationStack2D" load_steps=2 format=3 uid="uid://dt0dj8qk0lg47"]
+
+[sub_resource type="SkeletonModification2DFABRIK" id="SkeletonModification2DFABRIK_6sj78"]
+resource_local_to_scene = true
+resource_name = "LegFABRIK"
+target_nodepath = NodePath("../TargetContainer/Target")
+fabrik_data_chain_length = 3
+joint_data/0/bone_index = 0
+joint_data/0/bone2d_node = NodePath("ThighBone")
+joint_data/1/bone_index = 1
+joint_data/1/bone2d_node = NodePath("ThighBone/ShinBone")
+joint_data/1/magnet_position = Vector2(5, 1)
+joint_data/2/bone_index = 2
+joint_data/2/bone2d_node = NodePath("ThighBone/ShinBone/FootBone")
+joint_data/2/magnet_position = Vector2(0, 0)
+joint_data/2/use_target_rotation = true
+
+[resource]
+resource_local_to_scene = true
+resource_name = "Leg"
+enabled = true
+modification_count = 1
+modifications/0 = SubResource("SkeletonModification2DFABRIK_6sj78")

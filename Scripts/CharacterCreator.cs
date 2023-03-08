@@ -4,7 +4,9 @@ using Godot.Collections;
 
 public partial class CharacterCreator : Node2D
 {
-	[Export] PackedScene LegIns;
+    public static CharacterCreator instance;
+
+    [Export] PackedScene LegIns;
 
 	bool placeLeg = false;
 
@@ -15,7 +17,12 @@ public partial class CharacterCreator : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		hud = GetNode<CanvasLayer>("HUD");
+        if (instance == null)
+        {
+            instance = this;
+        }
+
+        hud = GetNode<CanvasLayer>("HUD");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -23,6 +30,10 @@ public partial class CharacterCreator : Node2D
 	{
 	}
 
+	public void Reset()
+	{
+		hud.Visible = true;
+	}
 
 
 	public void BPAddLeg() // Button pressed "Add leg"
@@ -48,17 +59,49 @@ public partial class CharacterCreator : Node2D
 		{
 			if (placeLeg)
 			{
-				placeLeg = false;
-				var leg = (Leg)LegIns.Instantiate();
-				leg.Position = GetGlobalMousePosition() - selectedCharacterRef.Position;
-				selectedCharacterRef.AddChild(leg);
-				selectedCharacterRef.legs.Add(leg);
+                RigidBody2D part = selectedCharacterRef;
 
-				PinJoint2D joint = new PinJoint2D();
-				leg.AddChild(joint);
-				joint.NodeA = selectedCharacterRef.GetPath();
-				joint.NodeB = leg.GetPath();
-			}
+				if (selectedCharacterRef.legs.Count > 1)
+				{
+					part = selectedCharacterRef.part1;
+				}
+                if (selectedCharacterRef.legs.Count > 3)
+                {
+                    part = selectedCharacterRef.part2;
+                }
+                if (selectedCharacterRef.legs.Count > 5)
+                {
+                    part = selectedCharacterRef.part3;
+                }
+
+                placeLeg = false;
+
+				{
+
+                    var leg = (Leg)LegIns.Instantiate();
+                    leg.Position = GetGlobalMousePosition() - selectedCharacterRef.Position;
+                    part.AddChild(leg);
+                    selectedCharacterRef.legs.Add(leg);
+
+                    PinJoint2D joint = new PinJoint2D();
+                    leg.AddChild(joint);
+                    joint.NodeA = part.GetPath();
+                    joint.NodeB = leg.GetPath();
+                }
+                {
+                    var leg = (Leg)LegIns.Instantiate();
+                    leg.Position = GetGlobalMousePosition() - selectedCharacterRef.Position;
+                    part.AddChild(leg);
+                    selectedCharacterRef.legs.Add(leg);
+
+                    PinJoint2D joint = new PinJoint2D();
+                    leg.AddChild(joint);
+                    joint.NodeA = part.GetPath();
+                    joint.NodeB = leg.GetPath();
+
+					leg.SetBackLeg();
+                }
+            }
 		}
 	}
 
