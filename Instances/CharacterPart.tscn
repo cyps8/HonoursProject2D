@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://b7qdufsk5unyl"]
+[gd_scene load_steps=4 format=3 uid="uid://b7qdufsk5unyl"]
 
+[ext_resource type="Script" path="res://Scripts/Body.cs" id="1_v1vgq"]
 [ext_resource type="Texture2D" uid="uid://dynl1lgvlmo4b" path="res://Assets/Art/Character/Circle.png" id="2_y1jfk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5qgql"]
@@ -8,6 +9,7 @@ radius = 50.01
 [node name="Character" type="RigidBody2D" groups=["Character"]]
 collision_layer = 10
 freeze = true
+script = ExtResource("1_v1vgq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.2, 0.2)

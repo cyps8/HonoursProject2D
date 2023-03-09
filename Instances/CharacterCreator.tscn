@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://pu2sb055rdnr"]
+[gd_scene load_steps=5 format=3 uid="uid://pu2sb055rdnr"]
 
 [ext_resource type="Script" path="res://Scripts/CharacterCreator.cs" id="1_pbxyo"]
 [ext_resource type="PackedScene" uid="uid://fuh6onk7u883" path="res://Instances/LegV3.tscn" id="2_0n4uj"]
+[ext_resource type="Script" path="res://Scripts/ButtonData.cs" id="3_4muti"]
+[ext_resource type="PackedScene" uid="uid://b7qdufsk5unyl" path="res://Instances/CharacterPart.tscn" id="3_cmy3i"]
 
-[node name="CharacterCreator" type="Node2D"]
+[node name="CharacterCreator" type="Node2D" node_paths=PackedStringArray("buttonContainer")]
 script = ExtResource("1_pbxyo")
 LegIns = ExtResource("2_0n4uj")
+BodyIns = ExtResource("3_cmy3i")
+buttonContainer = NodePath("HUD/Panel/GridContainer")
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -25,6 +29,7 @@ offset_bottom = 610.0
 text = "Play"
 
 [node name="Panel" type="Panel" parent="HUD"]
+self_modulate = Color(1, 1, 1, 0.490196)
 offset_left = 719.0
 offset_top = 145.0
 offset_right = 1092.0
@@ -34,22 +39,41 @@ offset_bottom = 552.0
 layout_mode = 0
 offset_left = 8.0
 offset_top = 4.0
-offset_right = 158.0
+offset_right = 361.0
 offset_bottom = 44.0
-tab_count = 2
+tab_count = 3
 tab_0/title = "All"
 tab_1/title = "Legs"
+tab_2/title = "Bodies"
 
-[node name="ButtonAddLeg" type="Button" parent="HUD/Panel"]
+[node name="GridContainer" type="GridContainer" parent="HUD/Panel"]
 layout_mode = 0
 offset_left = 11.0
-offset_top = 51.0
-offset_right = 113.0
-offset_bottom = 154.0
+offset_top = 49.0
+offset_right = 367.0
+offset_bottom = 405.0
+columns = 4
+
+[node name="ButtonAddLeg" type="Button" parent="HUD/Panel/GridContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
 text = "Leg
 "
 icon_alignment = 1
+script = ExtResource("3_4muti")
+partData = 1
+
+[node name="ButtonAddBody" type="Button" parent="HUD/Panel/GridContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+text = "Body
+"
+icon_alignment = 1
+script = ExtResource("3_4muti")
+partData = 2
 
 [connection signal="pressed" from="HUD/ButtonScreen" to="." method="BPScreen"]
 [connection signal="pressed" from="HUD/ButtonPlay" to="." method="BPPlay"]
-[connection signal="pressed" from="HUD/Panel/ButtonAddLeg" to="." method="BPAddLeg"]
+[connection signal="tab_changed" from="HUD/Panel/TabBar" to="." method="TabChanged"]
+[connection signal="pressed" from="HUD/Panel/GridContainer/ButtonAddLeg" to="." method="BPAddPart" binds= [0]]
+[connection signal="pressed" from="HUD/Panel/GridContainer/ButtonAddBody" to="." method="BPAddPart" binds= [1]]

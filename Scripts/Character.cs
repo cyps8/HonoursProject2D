@@ -12,9 +12,7 @@ public partial class Character : RigidBody2D
 
 	float walkTimer;
 
-	[Export] public RigidBody2D part1;
-    [Export] public RigidBody2D part2;
-    [Export] public RigidBody2D part3;
+	public Array<RigidBody2D> bodyParts = new Array<RigidBody2D>();
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -85,9 +83,10 @@ public partial class Character : RigidBody2D
 	{
 		Freeze = false;
 
-		part1.Freeze = false;
-        part2.Freeze = false;
-        part3.Freeze = false;
+		foreach (RigidBody2D bodyPart in bodyParts)
+		{
+			bodyPart.Freeze = false;
+		}
 
         foreach (var leg in legs)
 		{
@@ -99,7 +98,12 @@ public partial class Character : RigidBody2D
 	{
 		Freeze = true;
 
-		foreach (var leg in legs)
+        foreach (RigidBody2D bodyPart in bodyParts)
+        {
+            bodyPart.Freeze = true;
+        }
+
+        foreach (var leg in legs)
 		{
 			leg.Freeze = true;
 		}

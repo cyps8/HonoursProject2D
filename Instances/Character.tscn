@@ -1,19 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://h5iwogdu6tpp"]
+[gd_scene load_steps=4 format=3 uid="uid://h5iwogdu6tpp"]
 
 [ext_resource type="Texture2D" uid="uid://dynl1lgvlmo4b" path="res://Assets/Art/Character/Circle.png" id="1_qcyd1"]
 [ext_resource type="Script" path="res://Scripts/Character.cs" id="1_uchlq"]
-[ext_resource type="PackedScene" uid="uid://b7qdufsk5unyl" path="res://Instances/CharacterPart.tscn" id="3_e8c5w"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5qgql"]
 radius = 50.01
 
-[node name="Character" type="RigidBody2D" node_paths=PackedStringArray("part1", "part2", "part3") groups=["Character"]]
+[node name="Character" type="RigidBody2D" groups=["Character"]]
 collision_layer = 10
 freeze = true
 script = ExtResource("1_uchlq")
-part1 = NodePath("Character")
-part2 = NodePath("Character/Character2")
-part3 = NodePath("Character/Character2/Character3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.2, 0.2)
@@ -23,30 +19,3 @@ texture = ExtResource("1_qcyd1")
 shape = SubResource("CircleShape2D_5qgql")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-
-[node name="Character" parent="." instance=ExtResource("3_e8c5w")]
-position = Vector2(-79, -1)
-
-[node name="PinJoint2D" type="PinJoint2D" parent="Character"]
-position = Vector2(43, 2)
-node_a = NodePath("../..")
-node_b = NodePath("..")
-softness = 0.89
-
-[node name="Character2" parent="Character" instance=ExtResource("3_e8c5w")]
-position = Vector2(-84, 2)
-
-[node name="PinJoint2D" type="PinJoint2D" parent="Character/Character2"]
-position = Vector2(44, 0)
-node_a = NodePath("../..")
-node_b = NodePath("..")
-softness = 1.03
-
-[node name="Character3" parent="Character/Character2" instance=ExtResource("3_e8c5w")]
-position = Vector2(-82, 4)
-
-[node name="PinJoint2D" type="PinJoint2D" parent="Character/Character2/Character3"]
-position = Vector2(41, -1)
-node_a = NodePath("../..")
-node_b = NodePath("..")
-softness = 0.94
