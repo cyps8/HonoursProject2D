@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_5qgql"]
 radius = 50.01
 
-[node name="Character" type="RigidBody2D" groups=["Character"]]
+[node name="Character" type="RigidBody2D" groups=["Body", "Character"]]
 collision_layer = 10
 freeze = true
 script = ExtResource("1_uchlq")

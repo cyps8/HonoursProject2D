@@ -1,8 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://fuh6onk7u883"]
+[gd_scene load_steps=10 format=3 uid="uid://fuh6onk7u883"]
 
 [ext_resource type="Script" path="res://Scripts/Leg.cs" id="1_22qlh"]
 [ext_resource type="Texture2D" uid="uid://ceaugl0drwg2w" path="res://Assets/Art/Character/LegV3.png" id="2_f5sel"]
 [ext_resource type="SkeletonModificationStack2D" uid="uid://dt0dj8qk0lg47" path="res://Animation/ModStacks/LegV3ModStack.tres" id="3_488da"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6i4ny"]
+friction = 0.8
+rough = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jjpv1"]
 radius = 91.0494
@@ -128,6 +132,8 @@ _data = {
 
 [node name="Leg" type="RigidBody2D"]
 collision_layer = 2
+mass = 0.6
+physics_material_override = SubResource("PhysicsMaterial_6i4ny")
 continuous_cd = 1
 lock_rotation = true
 script = ExtResource("1_22qlh")

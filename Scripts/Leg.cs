@@ -1,12 +1,13 @@
 using Godot;
 using System;
-using System.Diagnostics;
 
 public partial class Leg : RigidBody2D
 {
 	AnimationPlayer animationPlayer;
 
 	bool BackLeg = false;
+
+	bool grounded = false;
 
 	//Sprite2D sprite;
 
@@ -41,19 +42,43 @@ public partial class Leg : RigidBody2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-	// 	var space = GetWorld2D().DirectSpaceState;
+		if (GroundCheck())
+		{ 
+			grounded = true;
+		}
+		else
+		{
+			grounded = false;
+			animationPlayer.Play("Idle");
+			animationPlayer.SpeedScale = 1;
+		}
+	}
 
-	// 	PhysicsRayQueryParameters2D query = new PhysicsRayQueryParameters2D();
+	bool GroundCheck()
+	{
+		var space = GetWorld2D().DirectSpaceState;
 
-	// 	//query.From = sprite.Position;
+		var query = new PhysicsShapeQueryParameters2D();
 
-	// 	//query.To = sprite.Position + (Vector2.Down * 500);
+		CircleShape2D shape = new CircleShape2D();
 
-	// 	var result = space.IntersectRay(query);
+		shape.Radius = 100f;
 
-	// 	if (result.Count > 0)
-	// 	{
-	// 		GD.Print("ooooo");
-	// 	}
+		query.Shape = shape;
+
+		query.Transform = new Transform2D(0, GlobalPosition);
+
+		var result = space.IntersectShape(query);
+
+		if (result.Count > 0)
+		{
+			foreach (var hit in result)
+			{
+				if (((PhysicsBody2D)hit["collider"]).IsInGroup("Ground"))
+					return true;
+			}
+		}
+
+		return false;
 	}
 }

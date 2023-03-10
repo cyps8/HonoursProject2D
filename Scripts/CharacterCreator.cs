@@ -22,6 +22,10 @@ public partial class CharacterCreator : Node2D
 
 	Array<ButtonData> buttons = new Array<ButtonData>();
 
+	Array<float> placeRadius = new Array<float>();
+
+	RigidBody2D ghostPart;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -38,11 +42,19 @@ public partial class CharacterCreator : Node2D
 		}
 
         hud = GetNode<CanvasLayer>("HUD");
+
+		placeRadius.Add(10f);
+
+		placeRadius.Add(40f);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (GameManager.instance.GetMode() == Mode.EditMode)
+		{
+			Ghost();
+		}
 	}
 
 	public void TabChanged(int _tabId)
@@ -89,9 +101,83 @@ public partial class CharacterCreator : Node2D
 		hud.Visible = true;
 	}
 
+	void Ghost()
+	{
+        if (placePart)
+        {
+            switch (placePartId)
+            {
+                case 0:
+                    if (ghostPart == null)
+                    {
+                        ghostPart = (RigidBody2D)LegIns.Instantiate();
+                        AddChild(ghostPart);
+                        ghostPart.ZIndex = 10;
+                        ghostPart.CollisionLayer = 0;
+                    }
+                    break;
+                case 1:
+                    if (ghostPart == null)
+                    {
+                        ghostPart = (RigidBody2D)BodyIns.Instantiate();
+                        AddChild(ghostPart);
+						ghostPart.ZIndex = 10;
+						ghostPart.CollisionLayer = 0;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            if (ghostPart != null)
+            {
+                ghostPart.Visible = false;
+                ghostPart = null;
+            }
+        }
+
+        if (ghostPart == null)
+			return;
+
+		ghostPart.GlobalPosition = GetGlobalMousePosition();
+
+        var space = GetWorld2D().DirectSpaceState;
+
+        var query = new PhysicsShapeQueryParameters2D();
+
+        CircleShape2D shape = new CircleShape2D();
+
+        shape.Radius = placeRadius[placePartId];
+
+        query.Shape = shape;
+
+        query.CollisionMask = 8;
+
+        query.Transform = new Transform2D(0, GetGlobalMousePosition());
+
+        var result = space.IntersectShape(query);
+
+		if (result.Count > 0)
+		{
+			ghostPart.Modulate = new Color(0.4f, 1f, 0.4f);
+		}
+		else
+		{
+            ghostPart.Modulate = new Color(1f, 0.4f, 0.4f);
+        }	
+    }
+
 
 	public void BPAddPart(int _partId) // Button pressed "Add leg"
 	{
+		if (placePart && placePartId == _partId)
+		{
+			placePart = false;
+			return;
+		}
+
 		placePart = true;
 
 		placePartId = _partId;
@@ -103,15 +189,21 @@ public partial class CharacterCreator : Node2D
 
 		var space = GetWorld2D().DirectSpaceState;
 
-		PhysicsPointQueryParameters2D query = new PhysicsPointQueryParameters2D();
+        var query = new PhysicsShapeQueryParameters2D();
 
-		query.Position = GetGlobalMousePosition();
+        CircleShape2D shape = new CircleShape2D();
+
+        shape.Radius = placeRadius[placePartId];
+
+        query.Shape = shape;
 
 		query.CollisionMask = 8;
 
-		var result = space.IntersectPoint(query);
+        query.Transform = new Transform2D(0, GetGlobalMousePosition());
 
-		if (result.Count > 0)
+        var result = space.IntersectShape(query);
+
+        if (result.Count > 0)
 		{
 			if (placePart)
 			{
@@ -145,7 +237,8 @@ public partial class CharacterCreator : Node2D
         joint.NodeA = _part.GetPath();
         joint.NodeB = body.GetPath();
 
-		joint.Position = _part.GlobalPosition - body.GlobalPosition;
+		joint.Position = (_part.GlobalPosition - body.GlobalPosition) / 2;
+		joint.DisableCollision = false;
     }
 
 	void PlaceLeg(RigidBody2D _part, bool _backLeg)
