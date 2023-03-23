@@ -70,3 +70,15 @@ scale = Vector2(30, 7.5)
 modulate = Color(0.552941, 0.741176, 0.494118, 1)
 position = Vector2(-431, 632)
 scale = Vector2(50, 7.5)
+
+[node name="Object11" parent="World" instance=ExtResource("4_fv7vf")]
+modulate = Color(0.552941, 0.741176, 0.494118, 1)
+position = Vector2(-1279, 945)
+rotation = -0.698132
+scale = Vector2(50, 7.5)
+
+[node name="Object12" parent="World" instance=ExtResource("4_fv7vf")]
+modulate = Color(0.552941, 0.741176, 0.494118, 1)
+position = Vector2(-2035, 1021)
+rotation = 0.523599
+scale = Vector2(50, 7.5)

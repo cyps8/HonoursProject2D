@@ -14,6 +14,8 @@ public partial class CharacterCreator : Node2D
 
 	int placePartId = 0;
 
+	int ghostPartId = -1;
+
 	Character selectedCharacterRef;
 
 	CanvasLayer hud;
@@ -103,31 +105,32 @@ public partial class CharacterCreator : Node2D
 
 	void Ghost()
 	{
-        if (placePart)
-        {
-            switch (placePartId)
-            {
-                case 0:
-                    if (ghostPart == null)
-                    {
-                        ghostPart = (RigidBody2D)LegIns.Instantiate();
-                        AddChild(ghostPart);
-                        ghostPart.ZIndex = 10;
-                        ghostPart.CollisionLayer = 0;
-                    }
-                    break;
-                case 1:
-                    if (ghostPart == null)
-                    {
-                        ghostPart = (RigidBody2D)BodyIns.Instantiate();
-                        AddChild(ghostPart);
-						ghostPart.ZIndex = 10;
-						ghostPart.CollisionLayer = 0;
-                    }
-                    break;
-                default:
-                    break;
-            }
+		if (placePart)
+		{
+			if (ghostPartId != placePartId)
+			{
+				if (ghostPartId != -1)
+				{
+                    ghostPart.Visible = false;
+                }
+
+				switch (placePartId)
+				{
+					case 0:
+						ghostPart = (RigidBody2D)LegIns.Instantiate();
+						AddChild(ghostPart);
+						break;
+					case 1:
+						ghostPart = (RigidBody2D)BodyIns.Instantiate();
+						AddChild(ghostPart);
+						break;
+					default:
+						break;
+				}
+                ghostPart.ZIndex = 10;
+                ghostPart.CollisionLayer = 0;
+                ghostPartId = placePartId;
+			}
         }
         else
         {
@@ -135,6 +138,7 @@ public partial class CharacterCreator : Node2D
             {
                 ghostPart.Visible = false;
                 ghostPart = null;
+				ghostPartId = -1;
             }
         }
 
@@ -257,6 +261,8 @@ public partial class CharacterCreator : Node2D
 		{
 			leg.SetBackLeg();
 		}
+
+		leg.attached = true;
     }
 
 	public void BPPlay()
