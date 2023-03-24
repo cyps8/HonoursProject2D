@@ -28,6 +28,10 @@ public partial class CharacterCreator : Node2D
 
 	RigidBody2D ghostPart;
 
+	Array<Body> bodyPool = new Array<Body>();
+
+	Array<Leg> legPool = new Array<Leg>();
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -101,6 +105,8 @@ public partial class CharacterCreator : Node2D
 	public void Reset()
 	{
 		hud.Visible = true;
+
+		selectedCharacterRef.Position = new Vector2(300, 300);
 	}
 
 	void Ghost()
@@ -112,17 +118,44 @@ public partial class CharacterCreator : Node2D
 				if (ghostPartId != -1)
 				{
                     ghostPart.Visible = false;
+
+                    if (ghostPart.IsInGroup("Leg"))
+                    {
+                        legPool.Add((Leg)ghostPart);
+                    }
+                    else if (ghostPart.IsInGroup("Body"))
+                    {
+                        bodyPool.Add((Body)ghostPart);
+                    }
                 }
 
 				switch (placePartId)
 				{
 					case 0:
-						ghostPart = (RigidBody2D)LegIns.Instantiate();
-						AddChild(ghostPart);
+						if (legPool.Count > 0)
+						{
+							ghostPart = legPool[0];
+							legPool.RemoveAt(0);
+                            ghostPart.Visible = true;
+                        }
+						else
+						{
+                            ghostPart = (RigidBody2D)LegIns.Instantiate();
+                            AddChild(ghostPart);
+                        }
 						break;
 					case 1:
-						ghostPart = (RigidBody2D)BodyIns.Instantiate();
-						AddChild(ghostPart);
+						if (bodyPool.Count > 0)
+						{
+							ghostPart = bodyPool[0];
+                            bodyPool.RemoveAt(0);
+                            ghostPart.Visible = true;
+                        }
+						else
+						{
+							ghostPart = (RigidBody2D)BodyIns.Instantiate();
+							AddChild(ghostPart);
+						}
 						break;
 					default:
 						break;
@@ -136,6 +169,15 @@ public partial class CharacterCreator : Node2D
         {
             if (ghostPart != null)
             {
+				if (ghostPart.IsInGroup("Leg"))
+				{
+					legPool.Add((Leg)ghostPart);
+				}
+				else if (ghostPart.IsInGroup("Body"))
+				{
+					bodyPool.Add((Body)ghostPart);
+				}
+
                 ghostPart.Visible = false;
                 ghostPart = null;
 				ghostPartId = -1;
@@ -231,9 +273,11 @@ public partial class CharacterCreator : Node2D
 
 	void PlaceBody(RigidBody2D _part)
 	{
-        var body = (Body)BodyIns.Instantiate();
-        body.Position = GetGlobalMousePosition() - _part.GlobalPosition;
+		Body body;
+		body = (Body)BodyIns.Instantiate();
         _part.AddChild(body);
+        body.Position = GetGlobalMousePosition() - _part.GlobalPosition;
+		body.SetOrigin();
         selectedCharacterRef.bodyParts.Add(body);
 
         PinJoint2D joint = new PinJoint2D();
@@ -243,6 +287,7 @@ public partial class CharacterCreator : Node2D
 
 		joint.Position = (_part.GlobalPosition - body.GlobalPosition) / 2;
 		joint.DisableCollision = false;
+		selectedCharacterRef.pinJoints.Add(joint);
     }
 
 	void PlaceLeg(RigidBody2D _part, bool _backLeg)
@@ -256,8 +301,9 @@ public partial class CharacterCreator : Node2D
         leg.AddChild(joint);
         joint.NodeA = _part.GetPath();
         joint.NodeB = leg.GetPath();
+        selectedCharacterRef.pinJoints.Add(joint);
 
-		if (_backLeg)
+        if (_backLeg)
 		{
 			leg.SetBackLeg();
 		}

@@ -36,7 +36,7 @@ public partial class GameManager : Node2D
 
 			CharacterCreator.instance.Reset();
 
-			playerCharacter.Reset();
+			playerCharacter.ResetPose();
         }
     }
 

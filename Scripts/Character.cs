@@ -14,6 +14,8 @@ public partial class Character : RigidBody2D
 
 	public Array<RigidBody2D> bodyParts = new Array<RigidBody2D>();
 
+	public Array<PinJoint2D> pinJoints = new Array<PinJoint2D>();
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -115,4 +117,24 @@ public partial class Character : RigidBody2D
 
 		//legs.Clear();
 	}
+
+	public void ResetPose()
+	{
+        Freeze = true;
+
+		Rotation = 0;
+
+        foreach (Body bodyPart in bodyParts)
+        {
+            bodyPart.Freeze = true;
+			bodyPart.Rotation = 0;
+			bodyPart.ReturnToOrigin();
+        }
+
+        foreach (var leg in legs)
+        {
+            leg.Freeze = true;
+			leg.Rotation = 0;
+        }
+    }
 }
