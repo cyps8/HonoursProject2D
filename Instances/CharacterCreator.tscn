@@ -1,14 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://pu2sb055rdnr"]
+[gd_scene load_steps=11 format=3 uid="uid://pu2sb055rdnr"]
 
 [ext_resource type="Script" path="res://Scripts/CharacterCreator.cs" id="1_pbxyo"]
 [ext_resource type="PackedScene" uid="uid://fuh6onk7u883" path="res://Instances/LegV3.tscn" id="2_0n4uj"]
 [ext_resource type="Script" path="res://Scripts/ButtonData.cs" id="3_4muti"]
 [ext_resource type="PackedScene" uid="uid://b7qdufsk5unyl" path="res://Instances/CharacterPart.tscn" id="3_cmy3i"]
+[ext_resource type="PackedScene" uid="uid://cav11xtr6dv65" path="res://Instances/EyePart.tscn" id="4_ro8cs"]
+[ext_resource type="ButtonGroup" uid="uid://d3cbha0ddkrrf" path="res://Resources/ToolsButtons.tres" id="6_cirkd"]
+[ext_resource type="Texture2D" uid="uid://bib13pxvtb13v" path="res://Assets/Art/UI/Select.png" id="7_hvvuy"]
+[ext_resource type="Texture2D" uid="uid://lg3gklsd783a" path="res://Assets/Art/UI/Move.png" id="8_asr33"]
+[ext_resource type="Texture2D" uid="uid://j3qaeuvdpwbc" path="res://Assets/Art/UI/Rotate.png" id="9_45lrw"]
+[ext_resource type="Texture2D" uid="uid://dl7rv25gudba3" path="res://Assets/Art/UI/Scale.png" id="10_bp68u"]
 
 [node name="CharacterCreator" type="Node2D" node_paths=PackedStringArray("buttonContainer")]
 script = ExtResource("1_pbxyo")
 LegIns = ExtResource("2_0n4uj")
 BodyIns = ExtResource("3_cmy3i")
+EyeIns = ExtResource("4_ro8cs")
 buttonContainer = NodePath("HUD/Panel/GridContainer")
 
 [node name="HUD" type="CanvasLayer" parent="."]
@@ -56,10 +63,11 @@ offset_left = 8.0
 offset_top = 4.0
 offset_right = 361.0
 offset_bottom = 44.0
-tab_count = 3
+tab_count = 4
 tab_0/title = "All"
 tab_1/title = "Legs"
 tab_2/title = "Bodies"
+tab_3/title = "Decor"
 
 [node name="GridContainer" type="GridContainer" parent="HUD/Panel"]
 layout_mode = 0
@@ -87,8 +95,63 @@ icon_alignment = 1
 script = ExtResource("3_4muti")
 partData = 2
 
+[node name="ButtonAddEye" type="Button" parent="HUD/Panel/GridContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+text = "Eye
+"
+icon_alignment = 1
+script = ExtResource("3_4muti")
+partData = 3
+
+[node name="Tools" type="Panel" parent="HUD"]
+offset_left = 97.0
+offset_top = 176.0
+offset_right = 155.0
+offset_bottom = 398.0
+
+[node name="GridContainer" type="GridContainer" parent="HUD/Tools"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 56.0
+offset_bottom = 224.0
+
+[node name="ToolButton" type="Button" parent="HUD/Tools/GridContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("6_cirkd")
+icon = ExtResource("7_hvvuy")
+expand_icon = true
+
+[node name="ToolButton2" type="Button" parent="HUD/Tools/GridContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("6_cirkd")
+icon = ExtResource("8_asr33")
+expand_icon = true
+
+[node name="ToolButton3" type="Button" parent="HUD/Tools/GridContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("6_cirkd")
+icon = ExtResource("9_45lrw")
+expand_icon = true
+
+[node name="ToolButton4" type="Button" parent="HUD/Tools/GridContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("6_cirkd")
+icon = ExtResource("10_bp68u")
+expand_icon = true
+
 [connection signal="pressed" from="HUD/ButtonScreen" to="." method="BPScreen"]
 [connection signal="pressed" from="HUD/ButtonPlay" to="." method="BPPlay"]
 [connection signal="tab_changed" from="HUD/Panel/TabBar" to="." method="TabChanged"]
 [connection signal="pressed" from="HUD/Panel/GridContainer/ButtonAddLeg" to="." method="BPAddPart" binds= [0]]
 [connection signal="pressed" from="HUD/Panel/GridContainer/ButtonAddBody" to="." method="BPAddPart" binds= [1]]
+[connection signal="pressed" from="HUD/Panel/GridContainer/ButtonAddEye" to="." method="BPAddPart" binds= [2]]

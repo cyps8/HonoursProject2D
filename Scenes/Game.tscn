@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dhaqoy23cwge2"]
+[gd_scene load_steps=6 format=3 uid="uid://dhaqoy23cwge2"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.cs" id="1_txsvc"]
 [ext_resource type="PackedScene" uid="uid://h5iwogdu6tpp" path="res://Instances/Character.tscn" id="2_6fq4t"]
 [ext_resource type="PackedScene" uid="uid://pu2sb055rdnr" path="res://Instances/CharacterCreator.tscn" id="3_5p6vx"]
+[ext_resource type="PackedScene" uid="uid://b7qdufsk5unyl" path="res://Instances/CharacterPart.tscn" id="4_7otjd"]
 [ext_resource type="PackedScene" uid="uid://dha1f6mqwnn37" path="res://Instances/Object.tscn" id="4_fv7vf"]
 
 [node name="Game" type="Node2D"]
@@ -11,74 +12,75 @@ characterIns = ExtResource("2_6fq4t")
 
 [node name="CharacterCreator" parent="." instance=ExtResource("3_5p6vx")]
 position = Vector2(130, 182)
+BodyIns = ExtResource("4_7otjd")
 
 [node name="World" type="Node2D" parent="."]
 
 [node name="Object" parent="World" instance=ExtResource("4_fv7vf")]
-position = Vector2(562, 645)
-scale = Vector2(50, 7.5)
+position = Vector2(538, 1394)
+scale = Vector2(50, 80)
 
 [node name="Object2" parent="World" instance=ExtResource("4_fv7vf")]
 modulate = Color(0.85098, 0.623529, 0.439216, 1)
-position = Vector2(1503, 566)
+position = Vector2(1506, 705)
 rotation = -0.174533
-scale = Vector2(50, 7.5)
+scale = Vector2(50, 20)
 
 [node name="Object4" parent="World" instance=ExtResource("4_fv7vf")]
 modulate = Color(0.85098, 0.623529, 0.439216, 1)
-position = Vector2(2244, 412)
+position = Vector2(2291, 538)
 rotation = -0.261799
-scale = Vector2(30, 7.5)
+scale = Vector2(30, 20)
 
 [node name="Object5" parent="World" instance=ExtResource("4_fv7vf")]
 modulate = Color(0.85098, 0.623529, 0.439216, 1)
-position = Vector2(2806, 233)
+position = Vector2(2860, 361)
 rotation = -0.349066
-scale = Vector2(30, 7.5)
+scale = Vector2(30, 20)
 
 [node name="Object6" parent="World" instance=ExtResource("4_fv7vf")]
 modulate = Color(0.85098, 0.623529, 0.439216, 1)
-position = Vector2(3349, 7.99995)
+position = Vector2(3406, 136)
 rotation = -0.436332
-scale = Vector2(30, 7.5)
+scale = Vector2(30, 20)
 
 [node name="Object7" parent="World" instance=ExtResource("4_fv7vf")]
 modulate = Color(0.85098, 0.623529, 0.439216, 1)
-position = Vector2(3861, -259)
+position = Vector2(3931, -135)
 rotation = -0.523599
-scale = Vector2(30, 7.5)
+scale = Vector2(30, 20)
 
 [node name="Object8" parent="World" instance=ExtResource("4_fv7vf")]
 modulate = Color(0.898039, 0.611765, 0.156863, 1)
-position = Vector2(4339, -563)
+position = Vector2(4432, -452)
 rotation = -0.610865
-scale = Vector2(30, 7.5)
+scale = Vector2(30, 20)
 
 [node name="Object9" parent="World" instance=ExtResource("4_fv7vf")]
 modulate = Color(0.898039, 0.611765, 0.156863, 1)
-position = Vector2(4759, -884)
+position = Vector2(4891, -802)
 rotation = -0.698132
-scale = Vector2(30, 7.5)
+scale = Vector2(30, 20)
 
 [node name="Object10" parent="World" instance=ExtResource("4_fv7vf")]
 modulate = Color(0.470588, 0.0470588, 0.0117647, 1)
-position = Vector2(5153, -1242)
+position = Vector2(5676, -1548)
 rotation = -0.785398
-scale = Vector2(30, 7.5)
+scale = Vector2(80, 20)
 
 [node name="Object3" parent="World" instance=ExtResource("4_fv7vf")]
 modulate = Color(0.552941, 0.741176, 0.494118, 1)
-position = Vector2(-431, 632)
-scale = Vector2(50, 7.5)
+position = Vector2(-425, 1377)
+scale = Vector2(50, 80)
 
 [node name="Object11" parent="World" instance=ExtResource("4_fv7vf")]
 modulate = Color(0.552941, 0.741176, 0.494118, 1)
-position = Vector2(-1279, 945)
+position = Vector2(-1130, 1122)
 rotation = -0.698132
-scale = Vector2(50, 7.5)
+scale = Vector2(50, 30)
 
 [node name="Object12" parent="World" instance=ExtResource("4_fv7vf")]
 modulate = Color(0.552941, 0.741176, 0.494118, 1)
-position = Vector2(-2035, 1021)
+position = Vector2(-2213, 1189)
 rotation = 0.523599
-scale = Vector2(50, 7.5)
+scale = Vector2(50, 30)

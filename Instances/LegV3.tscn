@@ -195,7 +195,6 @@ libraries = {
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeBlendSpace2D_0w2xy")
 anim_player = NodePath("../AnimationPlayer")
-active = true
 parameters/blend_position = Vector2(-0.948357, -0.16726)
 
 [node name="Polygon2D" type="Polygon2D" parent="."]

@@ -14,7 +14,7 @@ public partial class Character : RigidBody2D
 
 	public Array<RigidBody2D> bodyParts = new Array<RigidBody2D>();
 
-	public Array<PinJoint2D> pinJoints = new Array<PinJoint2D>();
+	public Array<Joint2D> pinJoints = new Array<Joint2D>();
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

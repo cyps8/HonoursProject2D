@@ -10,6 +10,8 @@ public partial class CharacterCreator : Node2D
 
 	[Export] PackedScene BodyIns;
 
+	[Export] PackedScene EyeIns;
+
 	bool placePart = false;
 
 	int placePartId = 0;
@@ -32,6 +34,8 @@ public partial class CharacterCreator : Node2D
 
 	Array<Leg> legPool = new Array<Leg>();
 
+	Array<Body> eyePool = new Array<Body>();
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -52,6 +56,8 @@ public partial class CharacterCreator : Node2D
 		placeRadius.Add(10f);
 
 		placeRadius.Add(40f);
+
+		placeRadius.Add(5f);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -98,6 +104,19 @@ public partial class CharacterCreator : Node2D
                         button.Visible = false;
                     }
                 }
+				break;
+			case 3:
+                foreach (ButtonData button in buttons)
+                {
+                    if (button.GetPartData() == PartData.Decor)
+                    {
+                        button.Visible = true;
+                    }
+                    else
+                    {
+                        button.Visible = false;
+                    }
+                }
                 break;
         }
 	}
@@ -127,6 +146,10 @@ public partial class CharacterCreator : Node2D
                     {
                         bodyPool.Add((Body)ghostPart);
                     }
+					else if (ghostPart.IsInGroup("Eye"))
+					{
+						eyePool.Add((Body)ghostPart);
+					}
                 }
 
 				switch (placePartId)
@@ -157,6 +180,19 @@ public partial class CharacterCreator : Node2D
 							AddChild(ghostPart);
 						}
 						break;
+					case 2:
+						if (eyePool.Count > 0)
+						{
+							ghostPart = eyePool[0];
+                            eyePool.RemoveAt(0);
+                            ghostPart.Visible = true;
+                        }
+						else
+						{
+							ghostPart = (RigidBody2D)EyeIns.Instantiate();
+							AddChild(ghostPart);
+						}
+						break;
 					default:
 						break;
 				}
@@ -176,6 +212,10 @@ public partial class CharacterCreator : Node2D
 				else if (ghostPart.IsInGroup("Body"))
 				{
 					bodyPool.Add((Body)ghostPart);
+				}
+				else if (ghostPart.IsInGroup("Eye"))
+				{
+					eyePool.Add((Body)ghostPart);
 				}
 
                 ghostPart.Visible = false;
@@ -267,6 +307,11 @@ public partial class CharacterCreator : Node2D
 				{
 					PlaceBody(part);
 				}
+
+				if (placePartId == 2)
+				{
+					PlaceEye(part);
+				}
             }
 		}
 	}
@@ -285,7 +330,30 @@ public partial class CharacterCreator : Node2D
         joint.NodeA = _part.GetPath();
         joint.NodeB = body.GetPath();
 
-		joint.Position = (_part.GlobalPosition - body.GlobalPosition) / 2;
+		joint.Position = (_part.GlobalPosition - body.GlobalPosition) / 2; //new Vector2(0,0);
+		joint.DisableCollision = false;
+		//joint.Length = (_part.GlobalPosition - body.GlobalPosition).Length();
+		//joint.Stiffness = 64;
+		//joint.Bias = 0.9f;
+		//joint.Damping = 16f;
+		selectedCharacterRef.pinJoints.Add(joint);
+    }
+
+	void PlaceEye(RigidBody2D _part)
+	{
+		Body eye;
+		eye = (Body)EyeIns.Instantiate();
+        _part.AddChild(eye);
+        eye.Position = GetGlobalMousePosition() - _part.GlobalPosition;
+		eye.SetOrigin();
+        selectedCharacterRef.bodyParts.Add(eye);
+
+        PinJoint2D joint = new PinJoint2D();
+        eye.AddChild(joint);
+        joint.NodeA = _part.GetPath();
+        joint.NodeB = eye.GetPath();
+
+		joint.Position = new Vector2(0,0);
 		joint.DisableCollision = false;
 		selectedCharacterRef.pinJoints.Add(joint);
     }

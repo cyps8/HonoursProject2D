@@ -15,6 +15,11 @@ run/main_scene="res://Scenes/Master.tscn"
 config/features=PackedStringArray("4.0", "C#", "Forward Plus")
 config/icon="res://Assets/Art/Misc/icon.svg"
 
+[display]
+
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
 [dotnet]
 
 project/assembly_name="HonoursPrototype2D"
@@ -57,4 +62,4 @@ Reset={
 
 [rendering]
 
-environment/defaults/default_clear_color=Color(0.352941, 0.6, 0.631373, 1)
+environment/defaults/default_clear_color=Color(0.376471, 0.694118, 0.776471, 1)
