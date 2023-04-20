@@ -56,8 +56,9 @@ public partial class Character : RigidBody2D
 			LinearVelocity = (velocity.Normalized() * 800) + new Vector2(0, LinearVelocity.Y);
 			foreach (var leg in legs)
 			{
-				leg.GetAnimationPlayer().Play("Walk");
-				leg.GetAnimationPlayer().SpeedScale = 2 * Mathf.Sign(LinearVelocity.X);
+				//leg.GetAnimationPlayer().Play("Walk");
+				//leg.GetAnimationPlayer().SpeedScale = 2 * Mathf.Sign(LinearVelocity.X);
+				leg.PlayWalk();
 
 				if (leg.GetBackLeg())
 				{
@@ -76,7 +77,8 @@ public partial class Character : RigidBody2D
 
             foreach (var leg in legs)
 			{
-				leg.GetAnimationPlayer().Play("Idle");
+				//leg.GetAnimationPlayer().Play("Idle");
+				leg.StopWalk();
 			}
 		}
 	}

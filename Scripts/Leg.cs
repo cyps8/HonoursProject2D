@@ -9,6 +9,8 @@ public partial class Leg : RigidBody2D
 {
 	AnimationPlayer animationPlayer;
 
+	AnimationTree animationTree;
+
 	bool backLeg = false;
 
 	bool grounded = false;
@@ -26,10 +28,33 @@ public partial class Leg : RigidBody2D
 		return animationPlayer;
 	}
 
+	public void PlayWalk()
+	{
+		animationTree.Set("parameters/blend_position", (-normal * 1.5f));
+
+		GD.Print($"Normal: {(-normal * 1.5f)}");
+	}
+
+	public void StopWalk()
+	{
+		animationTree.Set("parameters/blend_position", new Vector2(0, 0));
+	}
+
+	public AnimationTree GetAnimationTree()
+	{
+		return animationTree;
+	}
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+
+		animationTree = GetNode<AnimationTree>("AnimationTree");
+
+		animationTree.Active = true;
+
+		animationTree.Set("parameters/blend_position", new Vector2(0, 0));
 
 		//sprite = GetNode<Sprite2D>("Sprite2D");
 	}
