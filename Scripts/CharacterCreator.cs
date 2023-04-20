@@ -36,6 +36,8 @@ public partial class CharacterCreator : Node2D
 
 	Array<Body> eyePool = new Array<Body>();
 
+	Vector2 placePos;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -285,7 +287,9 @@ public partial class CharacterCreator : Node2D
 
 		query.CollisionMask = 8;
 
-        query.Transform = new Transform2D(0, GetGlobalMousePosition());
+		placePos = GetGlobalMousePosition();
+
+        query.Transform = new Transform2D(0, placePos);
 
         var result = space.IntersectShape(query);
 
@@ -321,7 +325,7 @@ public partial class CharacterCreator : Node2D
 		Body body;
 		body = (Body)BodyIns.Instantiate();
         _part.AddChild(body);
-        body.Position = GetGlobalMousePosition() - _part.GlobalPosition;
+        body.Position = placePos - _part.GlobalPosition;
 		body.SetOrigin();
         selectedCharacterRef.bodyParts.Add(body);
 
@@ -344,7 +348,7 @@ public partial class CharacterCreator : Node2D
 		Body eye;
 		eye = (Body)EyeIns.Instantiate();
         _part.AddChild(eye);
-        eye.Position = GetGlobalMousePosition() - _part.GlobalPosition;
+        eye.Position = placePos - _part.GlobalPosition;
 		eye.SetOrigin();
         selectedCharacterRef.bodyParts.Add(eye);
 
@@ -361,7 +365,7 @@ public partial class CharacterCreator : Node2D
 	void PlaceLeg(RigidBody2D _part, bool _backLeg)
 	{
         var leg = (Leg)LegIns.Instantiate();
-        leg.Position = GetGlobalMousePosition() - _part.GlobalPosition;
+        leg.Position = placePos - _part.GlobalPosition;
         _part.AddChild(leg);
         selectedCharacterRef.legs.Add(leg);
 

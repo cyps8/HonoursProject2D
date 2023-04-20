@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhaqoy23cwge2"]
+[gd_scene load_steps=5 format=3 uid="uid://dhaqoy23cwge2"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.cs" id="1_txsvc"]
 [ext_resource type="PackedScene" uid="uid://h5iwogdu6tpp" path="res://Instances/Character.tscn" id="2_6fq4t"]
 [ext_resource type="PackedScene" uid="uid://pu2sb055rdnr" path="res://Instances/CharacterCreator.tscn" id="3_5p6vx"]
-[ext_resource type="PackedScene" uid="uid://b7qdufsk5unyl" path="res://Instances/CharacterPart.tscn" id="4_7otjd"]
 [ext_resource type="PackedScene" uid="uid://dha1f6mqwnn37" path="res://Instances/Object.tscn" id="4_fv7vf"]
 
 [node name="Game" type="Node2D"]
@@ -12,7 +11,6 @@ characterIns = ExtResource("2_6fq4t")
 
 [node name="CharacterCreator" parent="." instance=ExtResource("3_5p6vx")]
 position = Vector2(130, 182)
-BodyIns = ExtResource("4_7otjd")
 
 [node name="World" type="Node2D" parent="."]
 

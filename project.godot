@@ -24,6 +24,10 @@ window/stretch/aspect="expand"
 
 project/assembly_name="HonoursPrototype2D"
 
+[editor]
+
+run/main_run_args="\"Godot_v4.0.1-stable_mono_win64.exe\" --rendering-driver opengl3"
+
 [input]
 
 ui_left={
