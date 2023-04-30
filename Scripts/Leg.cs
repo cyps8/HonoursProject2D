@@ -21,6 +21,8 @@ public partial class Leg : RigidBody2D
 
 	Vector2 contactPoint = new Vector2(0, 0);
 
+	Vector2 targetBlend = new Vector2(0, 0);
+
     //Sprite2D sprite;
 
     public AnimationPlayer GetAnimationPlayer()
@@ -30,14 +32,16 @@ public partial class Leg : RigidBody2D
 
 	public void PlayWalk()
 	{
-		animationTree.Set("parameters/blend_position", (-normal * 1.5f));
+		//animationTree.Set("parameters/blend_position", normal);
+		targetBlend = new Vector2(normal.X, normal.Y * -1);
 
-		GD.Print($"Normal: {(-normal * 1.5f)}");
+		GD.Print($"Normal: {normal}");
 	}
 
 	public void StopWalk()
 	{
-		animationTree.Set("parameters/blend_position", new Vector2(0, 0));
+		//animationTree.Set("parameters/blend_position", new Vector2(0, 0));
+		targetBlend = normal;
 	}
 
 	public AnimationTree GetAnimationTree()
@@ -75,8 +79,11 @@ public partial class Leg : RigidBody2D
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
+		if (GameManager.instance.GetMode() != Mode.PlayMode)
+			return;
+
 		if (!attached)
 		{
 			return;
@@ -89,8 +96,19 @@ public partial class Leg : RigidBody2D
 		else
 		{
 			grounded = false;
-			animationPlayer.Play("Idle");
-			animationPlayer.SpeedScale = 1;
+			//animationTree.Set("parameters/blend_position", normal * 0.2f);
+			targetBlend = new Vector2(normal.X, normal.Y * -1) * 0.2f;
+		}
+
+		Vector2 oldBlend = (Vector2)animationTree.Get("parameters/blend_position");
+
+		if (Mathf.Sign(oldBlend.Y) != Mathf.Sign(targetBlend.Y))
+		{
+			animationTree.Set("parameters/blend_position", targetBlend);
+		}
+		else
+		{
+			animationTree.Set("parameters/blend_position", new Vector2(Mathf.Lerp(oldBlend.X, targetBlend.X, 0.2f), Mathf.Lerp(oldBlend.Y, targetBlend.Y, 0.1f)));
 		}
 	}
 
@@ -143,9 +161,11 @@ public partial class Leg : RigidBody2D
         {
 			Vector2 floorAngle = (contacts[0] - contacts[1]);
 
-			normal = (floorAngle.Rotated(Mathf.RadToDeg(90))).Normalized();
+			//normal = (floorAngle.Rotated(Mathf.RadToDeg(90))).Normalized();
 
 			contactPoint = contacts[0] + (floorAngle / 2);
+
+			normal = (contactPoint - GlobalPosition).Normalized();
         }
 
 		return onGround;
