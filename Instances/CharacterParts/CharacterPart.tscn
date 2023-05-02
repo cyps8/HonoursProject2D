@@ -1,24 +1,26 @@
-[gd_scene load_steps=5 format=3 uid="uid://cav11xtr6dv65"]
+[gd_scene load_steps=5 format=3 uid="uid://b7qdufsk5unyl"]
 
-[ext_resource type="Script" path="res://Scripts/Body.cs" id="1_hj1xt"]
-[ext_resource type="Texture2D" uid="uid://b4tjghrp4n7j8" path="res://Assets/Art/Character/eyec.png" id="2_863wt"]
+[ext_resource type="Script" path="res://Scripts/Body.cs" id="1_wqlw5"]
+[ext_resource type="Texture2D" uid="uid://dynl1lgvlmo4b" path="res://Assets/Art/Character/Circle.png" id="2_boo5j"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_dsa0n"]
 friction = 2.0
 rough = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5qgql"]
-radius = 12.1655
+radius = 50.01
 
-[node name="Character" type="RigidBody2D" groups=["Character", "Eye"]]
+[node name="Character" type="RigidBody2D" groups=["Body", "Character"]]
 collision_layer = 10
+mass = 1.2
 physics_material_override = SubResource("PhysicsMaterial_dsa0n")
+lock_rotation = true
 freeze = true
-script = ExtResource("1_hj1xt")
+script = ExtResource("1_wqlw5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.2, 0.2)
-texture = ExtResource("2_863wt")
+texture = ExtResource("2_boo5j")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_5qgql")

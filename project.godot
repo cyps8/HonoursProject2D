@@ -17,6 +17,9 @@ config/icon="res://Assets/Art/Misc/icon.svg"
 
 [display]
 
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/borderless=true
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
@@ -66,4 +69,4 @@ Reset={
 
 [rendering]
 
-environment/defaults/default_clear_color=Color(0.376471, 0.694118, 0.776471, 1)
+environment/defaults/default_clear_color=Color(0.521569, 0.811765, 0.886275, 1)

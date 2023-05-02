@@ -8,6 +8,8 @@ public partial class Character : RigidBody2D
 {
 	public Array<Leg> legs = new Array<Leg>();
 
+	public int groundedLegs = 0;
+
 	public PlayerState currentState;
 
 	float walkTimer;
@@ -15,6 +17,8 @@ public partial class Character : RigidBody2D
 	public Array<RigidBody2D> bodyParts = new Array<RigidBody2D>();
 
 	public Array<Joint2D> pinJoints = new Array<Joint2D>();
+
+	public Array<Body> decorParts = new Array<Body>();
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -27,7 +31,10 @@ public partial class Character : RigidBody2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		
+		// foreach (Body part in decorParts)
+		// {
+		// 	part.Rotation = ((RigidBody2D)part.GetParent()).Rotation;
+		// }
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -35,47 +42,29 @@ public partial class Character : RigidBody2D
 		if (GameManager.instance.GetMode() != Mode.PlayMode)
 			return;
 
-		var velocity = Vector2.Zero; // The player's movement vector.
+		//var velocity = Vector2.Zero; // The player's movement vector.
 
 		if (Input.IsActionPressed("ui_right"))
 		{
-			velocity.X += 1;
-		}
-
-		if (Input.IsActionPressed("ui_left"))
-		{
-			velocity.X -= 1;
-		}
-
-		if (velocity.Length() > 0)
-		{
-			currentState = PlayerState.Walking;
-
-			walkTimer += (float)delta;
-
-			LinearVelocity = (velocity.Normalized() * 800) + new Vector2(0, LinearVelocity.Y);
 			foreach (var leg in legs)
 			{
-				leg.PlayWalk();
-
-				if (leg.GetBackLeg())
-				{
-					if (walkTimer < 0.25f)
-					{
-                        leg.GetAnimationPlayer().SpeedScale = 0;
-                    }
-                }
+				leg.Walk(1f);
 			}
+			//velocity.X = 1;
+		}
+		else if (Input.IsActionPressed("ui_left"))
+		{
+			foreach (var leg in legs)
+			{
+				leg.Walk(-1f);
+			}
+			//velocity.X -= 1;
 		}
 		else
 		{
-            currentState = PlayerState.Idle;
-
-			walkTimer = 0f;
-
-            foreach (var leg in legs)
+			foreach (var leg in legs)
 			{
-				leg.StopWalk();
+				leg.Walk(0f);
 			}
 		}
 	}

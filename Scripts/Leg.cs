@@ -25,20 +25,79 @@ public partial class Leg : RigidBody2D
 
     //Sprite2D sprite;
 
+	public bool footGrounded = false;
+
+	public void AnimFootGrounded(bool _value)
+	{
+		footGrounded = _value;
+
+		GD.Print($"Foot grounded: {footGrounded}");
+	}
+
     public AnimationPlayer GetAnimationPlayer()
 	{
 		return animationPlayer;
 	}
 
-	public void PlayWalk()
+	public void Walk(float _value)
+	{
+		if (GameManager.instance.GetMode() != Mode.PlayMode)
+			return;
+
+		if (!attached)
+		{
+			return;
+		}
+
+		if (!grounded)
+		{
+			return;
+		}
+
+		Vector2 moveVelocity;
+
+		if (Mathf.Abs(_value) > 0.1f)
+		{
+			PlayWalk();
+			moveVelocity = normal.Rotated(Mathf.DegToRad(90));
+		}
+		else
+		{
+			StopWalk();
+			moveVelocity = normal.Rotated(Mathf.DegToRad(90));
+		}
+
+		//GD.Print($"Move Velocity: {moveVelocity}");
+
+		if (footGrounded)
+		{
+			ApplyCentralImpulse(moveVelocity.Normalized() * 100 * -_value);
+
+			if (grounded && LinearVelocity.Length() > 400)
+			{
+				LinearVelocity = LinearVelocity.Normalized() * 400;
+
+				GD.Print("Damped");
+			}
+		}
+	}
+
+	void PlayWalk()
 	{
 		//animationTree.Set("parameters/blend_position", normal);
 		targetBlend = new Vector2(normal.X, normal.Y * -1);
 
-		GD.Print($"Normal: {normal}");
+		// if (!animationPlayer.IsPlaying())
+		// {
+		// 	GD.Print("Detected not playing");
+		// 	//animationPlayer.Seek(0, true);
+		// 	animationPlayer.Play();
+		// }
+
+		//GD.Print($"Normal: {normal}");
 	}
 
-	public void StopWalk()
+	void StopWalk()
 	{
 		//animationTree.Set("parameters/blend_position", new Vector2(0, 0));
 		targetBlend = normal;
@@ -161,7 +220,7 @@ public partial class Leg : RigidBody2D
         {
 			Vector2 floorAngle = (contacts[0] - contacts[1]);
 
-			//normal = (floorAngle.Rotated(Mathf.RadToDeg(90))).Normalized();
+			//normal = (floorAngle.Rotated(Mathf.DegToRad(90))).Normalized();
 
 			contactPoint = contacts[0] + (floorAngle / 2);
 

@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://pu2sb055rdnr"]
+[gd_scene load_steps=12 format=3 uid="uid://bpodquy5eaeqv"]
 
 [ext_resource type="Script" path="res://Scripts/CharacterCreator.cs" id="1_pbxyo"]
-[ext_resource type="PackedScene" uid="uid://fuh6onk7u883" path="res://Instances/LegV3.tscn" id="2_0n4uj"]
+[ext_resource type="PackedScene" uid="uid://fuh6onk7u883" path="res://Instances/CharacterParts/LegV3.tscn" id="2_7ybl1"]
 [ext_resource type="Script" path="res://Scripts/ButtonData.cs" id="3_4muti"]
-[ext_resource type="PackedScene" uid="uid://b7qdufsk5unyl" path="res://Instances/CharacterPart.tscn" id="3_cmy3i"]
-[ext_resource type="PackedScene" uid="uid://cav11xtr6dv65" path="res://Instances/EyePart.tscn" id="4_ro8cs"]
+[ext_resource type="PackedScene" uid="uid://b7qdufsk5unyl" path="res://Instances/CharacterParts/CharacterPart.tscn" id="3_e7hce"]
+[ext_resource type="PackedScene" uid="uid://cav11xtr6dv65" path="res://Instances/CharacterParts/EyePart.tscn" id="4_33tpd"]
+[ext_resource type="PackedScene" uid="uid://bekj52lvfpey7" path="res://Instances/CharacterParts/BeakPart.tscn" id="5_7vjva"]
 [ext_resource type="ButtonGroup" uid="uid://d3cbha0ddkrrf" path="res://Resources/ToolsButtons.tres" id="6_cirkd"]
 [ext_resource type="Texture2D" uid="uid://bib13pxvtb13v" path="res://Assets/Art/UI/Select.png" id="7_hvvuy"]
 [ext_resource type="Texture2D" uid="uid://lg3gklsd783a" path="res://Assets/Art/UI/Move.png" id="8_asr33"]
@@ -13,9 +14,10 @@
 
 [node name="CharacterCreator" type="Node2D" node_paths=PackedStringArray("buttonContainer")]
 script = ExtResource("1_pbxyo")
-LegIns = ExtResource("2_0n4uj")
-BodyIns = ExtResource("3_cmy3i")
-EyeIns = ExtResource("4_ro8cs")
+LegIns = ExtResource("2_7ybl1")
+BodyIns = ExtResource("3_e7hce")
+EyeIns = ExtResource("4_33tpd")
+BeakIns = ExtResource("5_7vjva")
 buttonContainer = NodePath("HUD/Panel/GridContainer")
 
 [node name="HUD" type="CanvasLayer" parent="."]
@@ -32,10 +34,10 @@ grow_vertical = 2
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 86.0
-offset_top = -117.0
-offset_right = 214.0
-offset_bottom = -54.0
+offset_left = 878.0
+offset_top = -135.0
+offset_right = 1006.0
+offset_bottom = -72.0
 grow_vertical = 0
 size_flags_horizontal = 2
 size_flags_vertical = 10
@@ -48,8 +50,8 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -392.0
-offset_top = -204.0
+offset_left = -458.0
+offset_top = -382.0
 offset_right = -19.0
 offset_bottom = 203.0
 grow_horizontal = 0
@@ -73,8 +75,8 @@ tab_3/title = "Decor"
 layout_mode = 0
 offset_left = 11.0
 offset_top = 49.0
-offset_right = 367.0
-offset_bottom = 405.0
+offset_right = 433.0
+offset_bottom = 573.0
 columns = 4
 
 [node name="ButtonAddLeg" type="Button" parent="HUD/Panel/GridContainer"]
@@ -104,11 +106,19 @@ icon_alignment = 1
 script = ExtResource("3_4muti")
 partData = 3
 
+[node name="ButtonAddBeak" type="Button" parent="HUD/Panel/GridContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+text = "Beak"
+icon_alignment = 1
+script = ExtResource("3_4muti")
+partData = 3
+
 [node name="Tools" type="Panel" parent="HUD"]
-offset_left = 97.0
-offset_top = 176.0
-offset_right = 155.0
-offset_bottom = 398.0
+offset_left = 105.0
+offset_top = 383.0
+offset_right = 163.0
+offset_bottom = 605.0
 
 [node name="GridContainer" type="GridContainer" parent="HUD/Tools"]
 layout_mode = 0
@@ -155,3 +165,4 @@ expand_icon = true
 [connection signal="pressed" from="HUD/Panel/GridContainer/ButtonAddLeg" to="." method="BPAddPart" binds= [0]]
 [connection signal="pressed" from="HUD/Panel/GridContainer/ButtonAddBody" to="." method="BPAddPart" binds= [1]]
 [connection signal="pressed" from="HUD/Panel/GridContainer/ButtonAddEye" to="." method="BPAddPart" binds= [2]]
+[connection signal="pressed" from="HUD/Panel/GridContainer/ButtonAddBeak" to="." method="BPAddPart" binds= [3]]

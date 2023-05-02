@@ -8,6 +8,7 @@ radius = 50.01
 
 [node name="Character" type="RigidBody2D" groups=["Body", "Character"]]
 collision_layer = 10
+mass = 1.2
 freeze = true
 script = ExtResource("1_uchlq")
 

@@ -1,11 +1,10 @@
 [gd_scene load_steps=34 format=3 uid="uid://fuh6onk7u883"]
 
-[ext_resource type="Script" path="res://Scripts/Leg.cs" id="1_22qlh"]
-[ext_resource type="Texture2D" uid="uid://ceaugl0drwg2w" path="res://Assets/Art/Character/LegV3.png" id="2_f5sel"]
-[ext_resource type="SkeletonModificationStack2D" uid="uid://dt0dj8qk0lg47" path="res://Animation/ModStacks/LegV3ModStack.tres" id="3_488da"]
+[ext_resource type="Script" path="res://Scripts/Leg.cs" id="1_m4lft"]
+[ext_resource type="Texture2D" uid="uid://ceaugl0drwg2w" path="res://Assets/Art/Character/LegV3.png" id="2_denvm"]
+[ext_resource type="SkeletonModificationStack2D" uid="uid://dt0dj8qk0lg47" path="res://Animation/ModStacks/LegV3ModStack.tres" id="3_gym58"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6i4ny"]
-friction = 0.8
 rough = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jjpv1"]
@@ -220,7 +219,7 @@ tracks/1/loop_wrap = true
 tracks/1/keys = {
 "handle_modes": PackedInt32Array(0, 2, 2, 2, 2, 2, 2, 0),
 "points": PackedFloat32Array(75.96, 0, 0, 0.05, -0.288437, 66.4011, -0.025, 4.7484, 0.025, -4.7484, 46.1581, -0.025, 1.66667, 0.025, -1.66667, 38.0192, -0.025, 0.583333, 0.025, -0.583333, 37.0192, -0.045264, -1.31931, 0.05, 1.45735, 44.9004, -0.025, -2, 0.025, 2, 61.0192, -0.022909, -4.93373, 0.0493562, 10.6295, 75.0041, -0.0499134, -2.02765, 0.25, 0),
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.1)
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05)
 }
 tracks/2/type = "bezier"
 tracks/2/imported = false
@@ -232,6 +231,26 @@ tracks/2/keys = {
 "handle_modes": PackedInt32Array(2, 2, 2, 2, 2, 2, 2, 2),
 "points": PackedFloat32Array(-1.5708, 0, 0, 0.0333333, 0.0898845, -1.03149, -0.025, -0.0874119, 0.025, 0.0874119, -0.521853, -0.025, -0.0680679, 0.025, 0.0680678, -0.214676, -0.025, 0.0261799, 0.025, -0.0261799, -0.836013, -0.025, 0.148353, 0.025, -0.148353, -1.99491, -0.025, 0.0714131, 0.025, -0.0714131, -1.69297, -0.025, -0.0353429, 0.025, 0.0353429, -1.5708, 0, 0, 0, 0),
 "times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05)
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3, 1.05),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [true],
+"method": &"AnimFootGrounded"
+}, {
+"args": [false],
+"method": &"AnimFootGrounded"
+}, {
+"args": [true],
+"method": &"AnimFootGrounded"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_rfwcj"]
@@ -349,6 +368,26 @@ tracks/2/keys = {
 "handle_modes": PackedInt32Array(2, 2, 2, 2, 2, 2, 2, 2),
 "points": PackedFloat32Array(-2.18261, 0, 0, 0.025, 0.0802163, -1.39982, -0.00833333, -0.0569784, 0.0166667, 0.113957, -0.6757, -0.0166667, 0.0313953, 0.025, -0.0470929, -1.58036, -0.025, 0.0927261, 0.025, -0.0927261, -1.78841, -0.025, 0.0701779, 0.025, -0.0701779, -2.42249, -0.025, 0.0496801, 0.025, -0.0496802, -2.38458, -0.025, -0.0148437, 0.025, 0.0148437, -2.24437, -0.025, -0.0233678, 0, 0),
 "times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05)
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3, 1.05),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [true],
+"method": &"AnimFootGrounded"
+}, {
+"args": [false],
+"method": &"AnimFootGrounded"
+}, {
+"args": [true],
+"method": &"AnimFootGrounded"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_q53cq"]
@@ -490,11 +529,10 @@ triangles = PackedInt32Array(0, 2, 3, 0, 3, 4, 0, 1, 6, 0, 5, 6, 0, 4, 7, 0, 5, 
 
 [node name="Leg" type="RigidBody2D" groups=["Character", "Leg"]]
 collision_layer = 2
-mass = 0.6
 physics_material_override = SubResource("PhysicsMaterial_6i4ny")
 continuous_cd = 1
 lock_rotation = true
-script = ExtResource("1_22qlh")
+script = ExtResource("1_m4lft")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_jjpv1")
@@ -508,13 +546,12 @@ libraries = {
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeBlendSpace2D_0w2xy")
 anim_player = NodePath("../AnimationPlayer")
-active = true
 parameters/blend_position = Vector2(0.123902, 0.816594)
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 scale = Vector2(0.22, 0.22)
 offset = Vector2(-245.455, -81.8182)
-texture = ExtResource("2_f5sel")
+texture = ExtResource("2_denvm")
 skeleton = NodePath("../Skeleton2D")
 polygon = PackedVector2Array(302.208, 121.136, 317.666, 105.047, 323.344, 76.0252, 313.249, 37.224, 283.596, 20.8202, 243.218, 12.9338, 200.315, 21.4511, 170.347, 64.3533, 174.763, 144.479, 198.738, 195.899, 204.416, 238.486, 206.94, 264.669, 201.262, 291.483, 190.852, 336.909, 206.625, 393.375, 211.987, 448.265, 210.095, 489.905, 229.968, 507.255, 341.64, 504.101, 357.729, 488.959, 345.741, 470.347, 295.899, 458.991, 274.763, 437.224, 268.77, 383.912, 270.032, 330.284, 268.77, 307.886, 279.811, 295.268, 282.019, 279.811, 279.495, 258.991, 276.341, 236.593, 284.227, 177.603, 244.164, 64.3533, 211.356, 79.1798, 277.287, 83.2807, 241.956, 120.505, 240.063, 188.013, 239.117, 239.117, 253.943, 281.073, 230.284, 278.864, 231.23, 328.076, 239.748, 389.905, 242.587, 439.432, 252.05, 473.186, 311.672, 483.281)
 uv = PackedVector2Array(302.208, 121.136, 317.666, 105.047, 323.344, 76.0252, 313.249, 37.224, 283.596, 20.8202, 243.218, 12.9338, 200.315, 21.4511, 170.347, 64.3533, 174.763, 144.479, 198.738, 195.899, 204.416, 238.486, 206.94, 264.669, 201.262, 291.483, 190.852, 336.909, 206.625, 393.375, 211.987, 448.265, 210.095, 489.905, 229.968, 507.255, 341.64, 504.101, 357.729, 488.959, 345.741, 470.347, 295.899, 458.991, 274.763, 437.224, 268.77, 383.912, 270.032, 330.284, 268.77, 307.886, 279.811, 295.268, 282.019, 279.811, 279.495, 258.991, 276.341, 236.593, 284.227, 177.603, 244.164, 64.3533, 211.356, 79.1798, 277.287, 83.2807, 241.956, 120.505, 240.063, 188.013, 239.117, 239.117, 253.943, 281.073, 230.284, 278.864, 231.23, 328.076, 239.748, 389.905, 242.587, 439.432, 252.05, 473.186, 311.672, 483.281)
@@ -530,7 +567,7 @@ rotation = -1.5708
 
 [node name="Skeleton2D" type="Skeleton2D" parent="."]
 z_index = 2
-modification_stack = ExtResource("3_488da")
+modification_stack = ExtResource("3_gym58")
 
 [node name="ThighBone" type="Bone2D" parent="Skeleton2D"]
 rotation = 1.5708

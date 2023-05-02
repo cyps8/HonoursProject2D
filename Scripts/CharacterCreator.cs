@@ -12,6 +12,8 @@ public partial class CharacterCreator : Node2D
 
 	[Export] PackedScene EyeIns;
 
+	[Export] PackedScene BeakIns;
+
 	bool placePart = false;
 
 	int placePartId = 0;
@@ -36,6 +38,8 @@ public partial class CharacterCreator : Node2D
 
 	Array<Body> eyePool = new Array<Body>();
 
+	Array<Body> beakPool = new Array<Body>();
+
 	Vector2 placePos;
 
 	// Called when the node enters the scene tree for the first time.
@@ -58,6 +62,8 @@ public partial class CharacterCreator : Node2D
 		placeRadius.Add(10f);
 
 		placeRadius.Add(40f);
+
+		placeRadius.Add(5f);
 
 		placeRadius.Add(5f);
 	}
@@ -152,6 +158,10 @@ public partial class CharacterCreator : Node2D
 					{
 						eyePool.Add((Body)ghostPart);
 					}
+					else if (ghostPart.IsInGroup("Beak"))
+					{
+						beakPool.Add((Body)ghostPart);
+					}
                 }
 
 				switch (placePartId)
@@ -195,6 +205,19 @@ public partial class CharacterCreator : Node2D
 							AddChild(ghostPart);
 						}
 						break;
+					case 3:
+						if (beakPool.Count > 0)
+						{
+							ghostPart = beakPool[0];
+                            beakPool.RemoveAt(0);
+                            ghostPart.Visible = true;
+                        }
+						else
+						{
+							ghostPart = (RigidBody2D)BeakIns.Instantiate();
+							AddChild(ghostPart);
+						}
+						break;
 					default:
 						break;
 				}
@@ -218,6 +241,10 @@ public partial class CharacterCreator : Node2D
 				else if (ghostPart.IsInGroup("Eye"))
 				{
 					eyePool.Add((Body)ghostPart);
+				}
+				else if (ghostPart.IsInGroup("Beak"))
+				{
+					beakPool.Add((Body)ghostPart);
 				}
 
                 ghostPart.Visible = false;
@@ -316,6 +343,11 @@ public partial class CharacterCreator : Node2D
 				{
 					PlaceEye(part);
 				}
+
+				if (placePartId == 3)
+				{
+					PlaceBeak(part);
+				}
             }
 		}
 	}
@@ -362,6 +394,26 @@ public partial class CharacterCreator : Node2D
 		selectedCharacterRef.pinJoints.Add(joint);
     }
 
+	void PlaceBeak(RigidBody2D _part)
+	{
+		Body beak;
+		beak = (Body)BeakIns.Instantiate();
+        _part.AddChild(beak);
+        beak.Position = placePos - _part.GlobalPosition;
+		beak.SetOrigin();
+        selectedCharacterRef.bodyParts.Add(beak);
+		//selectedCharacterRef.decorParts.Add(beak);
+
+        PinJoint2D joint = new PinJoint2D();
+        beak.AddChild(joint);
+        joint.NodeA = _part.GetPath();
+        joint.NodeB = beak.GetPath();
+
+		joint.Position = new Vector2(0,0);
+		joint.DisableCollision = false;
+		selectedCharacterRef.pinJoints.Add(joint);
+    }
+
 	void PlaceLeg(RigidBody2D _part, bool _backLeg)
 	{
         var leg = (Leg)LegIns.Instantiate();
@@ -373,6 +425,9 @@ public partial class CharacterCreator : Node2D
         leg.AddChild(joint);
         joint.NodeA = _part.GetPath();
         joint.NodeB = leg.GetPath();
+
+		joint.Softness = 0.1f;
+
         selectedCharacterRef.pinJoints.Add(joint);
 
         if (_backLeg)
