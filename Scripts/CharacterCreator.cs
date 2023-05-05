@@ -404,13 +404,17 @@ public partial class CharacterCreator : Node2D
         selectedCharacterRef.bodyParts.Add(beak);
 		//selectedCharacterRef.decorParts.Add(beak);
 
-        PinJoint2D joint = new PinJoint2D();
+        FixedJoint2D joint = new FixedJoint2D();
         beak.AddChild(joint);
-        joint.NodeA = _part.GetPath();
-        joint.NodeB = beak.GetPath();
+
+        //joint.NodeA = _part.GetPath();
+        //joint.NodeB = beak.GetPath();
 
 		joint.Position = new Vector2(0,0);
 		joint.DisableCollision = false;
+
+		joint.ConnectNodes(_part, beak);
+
 		selectedCharacterRef.pinJoints.Add(joint);
     }
 
