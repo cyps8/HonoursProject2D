@@ -23,9 +23,30 @@ public partial class Leg : RigidBody2D
 
 	Vector2 targetBlend = new Vector2(0, 0);
 
+	bool walking = false;
+
+	float backLegDelay = 0.525f;
+
+	Character attachedCharacter;
+
     //Sprite2D sprite;
 
 	public bool footGrounded = false;
+
+	public bool GetFootGrounded()
+	{
+		return footGrounded;
+	}
+
+	public bool GetGrounded()
+	{
+		return grounded;
+	}
+
+	public void SetCharacter(Character _character)
+	{
+		attachedCharacter = _character;
+	}
 
 	public void AnimFootGrounded(bool _value)
 	{
@@ -84,13 +105,23 @@ public partial class Leg : RigidBody2D
 
 	void PlayWalk()
 	{
+		if (backLeg)
+		{
+			if (backLegDelay > 0)
+			{
+				return;
+			}
+		}
+
+
 		//animationTree.Set("parameters/blend_position", normal);
 		targetBlend = new Vector2(normal.X, normal.Y * -1);
+
+		walking = true;
 
 		// if (!animationPlayer.IsPlaying())
 		// {
 		// 	GD.Print("Detected not playing");
-		// 	//animationPlayer.Seek(0, true);
 		// 	animationPlayer.Play();
 		// }
 
@@ -99,8 +130,16 @@ public partial class Leg : RigidBody2D
 
 	void StopWalk()
 	{
+		if (backLeg)
+		{
+			backLegDelay = 0.525f;
+		}
+
+
 		//animationTree.Set("parameters/blend_position", new Vector2(0, 0));
 		targetBlend = normal;
+
+		walking = false;
 	}
 
 	public AnimationTree GetAnimationTree()
@@ -148,6 +187,11 @@ public partial class Leg : RigidBody2D
 			return;
 		}
 
+		if (backLeg)
+		{
+			Modulate = new Color(0.5f, 0.5f, 0.5f);
+		}
+
 		if (GroundCheck())
 		{ 
 			grounded = true;
@@ -157,6 +201,11 @@ public partial class Leg : RigidBody2D
 			grounded = false;
 			//animationTree.Set("parameters/blend_position", normal * 0.2f);
 			targetBlend = new Vector2(normal.X, normal.Y * -1) * 0.2f;
+		}
+
+		if (backLeg)
+		{
+			backLegDelay -= (float)delta;
 		}
 
 		Vector2 oldBlend = (Vector2)animationTree.Get("parameters/blend_position");
@@ -170,6 +219,21 @@ public partial class Leg : RigidBody2D
 			animationTree.Set("parameters/blend_position", new Vector2(Mathf.Lerp(oldBlend.X, targetBlend.X, 0.2f), Mathf.Lerp(oldBlend.Y, targetBlend.Y, 0.1f)));
 		}
 	}
+
+	int GetFootNum()
+	{
+		int footNum = 0;
+		foreach (var leg in attachedCharacter.legs)
+		{
+			footNum++;
+			if (leg == this)
+			{
+				return footNum;
+			}
+		}
+		return -1;
+	}
+	
 
 	bool GroundCheck()
 	{

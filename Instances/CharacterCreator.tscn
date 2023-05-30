@@ -12,13 +12,14 @@
 [ext_resource type="Texture2D" uid="uid://j3qaeuvdpwbc" path="res://Assets/Art/UI/Rotate.png" id="9_45lrw"]
 [ext_resource type="Texture2D" uid="uid://dl7rv25gudba3" path="res://Assets/Art/UI/Scale.png" id="10_bp68u"]
 
-[node name="CharacterCreator" type="Node2D" node_paths=PackedStringArray("buttonContainer")]
+[node name="CharacterCreator" type="Node2D" node_paths=PackedStringArray("buttonContainer", "toolText")]
 script = ExtResource("1_pbxyo")
 LegIns = ExtResource("2_7ybl1")
 BodyIns = ExtResource("3_e7hce")
 EyeIns = ExtResource("4_33tpd")
 BeakIns = ExtResource("5_7vjva")
 buttonContainer = NodePath("HUD/Panel/GridContainer")
+toolText = NodePath("HUD/Tools/Label")
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -146,6 +147,7 @@ expand_icon = true
 [node name="ToolButton3" type="Button" parent="HUD/Tools/GridContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
+disabled = true
 toggle_mode = true
 button_group = ExtResource("6_cirkd")
 icon = ExtResource("9_45lrw")
@@ -159,6 +161,16 @@ button_group = ExtResource("6_cirkd")
 icon = ExtResource("10_bp68u")
 expand_icon = true
 
+[node name="Label" type="Label" parent="HUD/Tools"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = -34.0
+offset_right = 153.0
+offset_bottom = 3.0
+text = "Current tool: Select"
+
+[connection signal="button_down" from="HUD/ButtonScreen" to="." method="BPScreenDown"]
+[connection signal="button_up" from="HUD/ButtonScreen" to="." method="BPScreenUp"]
 [connection signal="pressed" from="HUD/ButtonScreen" to="." method="BPScreen"]
 [connection signal="pressed" from="HUD/ButtonPlay" to="." method="BPPlay"]
 [connection signal="tab_changed" from="HUD/Panel/TabBar" to="." method="TabChanged"]
@@ -166,3 +178,7 @@ expand_icon = true
 [connection signal="pressed" from="HUD/Panel/GridContainer/ButtonAddBody" to="." method="BPAddPart" binds= [1]]
 [connection signal="pressed" from="HUD/Panel/GridContainer/ButtonAddEye" to="." method="BPAddPart" binds= [2]]
 [connection signal="pressed" from="HUD/Panel/GridContainer/ButtonAddBeak" to="." method="BPAddPart" binds= [3]]
+[connection signal="pressed" from="HUD/Tools/GridContainer/ToolButton" to="." method="BPToolSelected" binds= [0]]
+[connection signal="pressed" from="HUD/Tools/GridContainer/ToolButton2" to="." method="BPToolSelected" binds= [1]]
+[connection signal="pressed" from="HUD/Tools/GridContainer/ToolButton3" to="." method="BPToolSelected" binds= [2]]
+[connection signal="pressed" from="HUD/Tools/GridContainer/ToolButton4" to="." method="BPToolSelected" binds= [3]]

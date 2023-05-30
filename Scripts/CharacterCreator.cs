@@ -42,6 +42,18 @@ public partial class CharacterCreator : Node2D
 
 	Vector2 placePos;
 
+	int currentTool = 0;
+
+	RigidBody2D selectedPart;
+
+	[Export] Label toolText;
+
+	bool screenPressed = false;
+
+	Vector2 toolOffset = new Vector2(0, 0);
+
+	Vector2 moveOriginalPos = new Vector2(0, 0);
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -74,6 +86,16 @@ public partial class CharacterCreator : Node2D
 		if (GameManager.instance.GetMode() == Mode.EditMode)
 		{
 			Ghost();
+		}
+
+		if (screenPressed && selectedPart != null)
+		{
+			if (currentTool == 1)
+			{
+				Vector2 mousePos = GetGlobalMousePosition();
+
+				selectedPart.GlobalPosition = mousePos + toolOffset;
+			}
 		}
 	}
 
@@ -289,42 +311,186 @@ public partial class CharacterCreator : Node2D
 	{
 		if (placePart && placePartId == _partId)
 		{
+			currentTool = 0;
+			UpdateToolText();
 			placePart = false;
 			return;
 		}
+
+		currentTool = -1;
+		UpdateToolText();
 
 		placePart = true;
 
 		placePartId = _partId;
 	}
 
-	public void BPScreen() // Button pressed "Screen"
+	public void BPScreenDown()
 	{
+		screenPressed = true;
+
 		selectedCharacterRef = GameManager.instance.playerCharacter;
 
 		var space = GetWorld2D().DirectSpaceState;
 
-        var query = new PhysicsShapeQueryParameters2D();
+		var query = new PhysicsPointQueryParameters2D();
 
-        CircleShape2D shape = new CircleShape2D();
+		query.CollisionMask = 16; // Visuals collision shapes
 
-        shape.Radius = placeRadius[placePartId];
+		query.Position = GetGlobalMousePosition();
 
-        query.Shape = shape;
+		query.CollideWithAreas = true;
 
-		query.CollisionMask = 8;
+		var result = space.IntersectPoint(query);
 
-		placePos = GetGlobalMousePosition();
-
-        query.Transform = new Transform2D(0, placePos);
-
-        var result = space.IntersectShape(query);
-
-        if (result.Count > 0)
+		if (result.Count > 0)
 		{
-			if (placePart)
+			int closest = 0;
+
+			for (int i = 1; i < result.Count; i++)
 			{
-                RigidBody2D part = (RigidBody2D)result[0]["collider"];
+				if (((CollisionObject2D)result[i]["collider"]).ZIndex > ((CollisionObject2D)result[closest]["collider"]).ZIndex)
+				{
+					closest = i;
+				}
+			}
+
+			if (currentTool == 1)
+			{
+				// Select the part
+				CollisionObject2D selectedObject = (CollisionObject2D)result[closest]["collider"];
+
+				if (selectedObject.IsInGroup("SelectArea"))
+				{
+					selectedPart = (RigidBody2D)selectedObject.GetParent();
+				}
+				else
+				{
+					selectedPart = (RigidBody2D)selectedObject;
+				}
+				selectedPart.Modulate = new Color(0.4f, 0.4f, 1.0f);
+
+				toolOffset = selectedPart.GlobalPosition - GetGlobalMousePosition();
+
+				moveOriginalPos = selectedPart.GlobalPosition;
+			}
+		}
+	}
+
+	public void BPScreenUp()
+	{
+		screenPressed = false;
+
+		if (currentTool != 1)
+			return;
+
+		if (selectedPart != null)
+		{
+			selectedPart.Modulate = new Color(1f, 1f, 1f);
+
+			// Get selected part type
+			int typeId = 0;
+			if (selectedPart.IsInGroup("Body"))
+			{
+				typeId = 1;
+			}
+			else if (selectedPart.IsInGroup("Leg"))
+			{
+				typeId = 0;
+			}
+			else if (selectedPart.IsInGroup("Eye"))
+			{
+				typeId = 2;
+			}
+			else if (selectedPart.IsInGroup("Beak"))
+			{
+				typeId = 3;
+			}
+
+			selectedCharacterRef = GameManager.instance.playerCharacter;
+
+			var space = GetWorld2D().DirectSpaceState;
+
+			var query = new PhysicsShapeQueryParameters2D();
+
+			CircleShape2D shape = new CircleShape2D();
+
+			shape.Radius = placeRadius[typeId];
+
+			query.Shape = shape;
+
+			query.CollisionMask = 8;
+
+			placePos = GetGlobalMousePosition();
+
+			query.Transform = new Transform2D(0, placePos);
+
+			var result = space.IntersectShape(query);
+
+			if (result.Count > 0)
+			{
+				if ((RigidBody2D)result[0]["collider"] != (RigidBody2D)selectedPart)
+				{
+					var children = selectedPart.GetChildren();
+
+					Joint2D joint = null;
+
+					foreach (var child in children)
+					{
+						if (child.IsInGroup("Joint"))
+						{
+							joint = (Joint2D)child;
+						}
+					}
+
+					//joint.Position = selectedPart.GlobalPosition;
+					joint.NodeA = selectedPart.GetPath();
+					joint.NodeB = ((RigidBody2D)result[0]["collider"]).GetPath();
+
+					selectedPart.GetParent().RemoveChild(selectedPart);
+					((RigidBody2D)result[0]["collider"]).AddChild(selectedPart);
+				}
+				else
+				{
+					selectedPart.GlobalPosition = moveOriginalPos;
+				}
+			}
+			else
+			{
+				selectedPart.GlobalPosition = moveOriginalPos;
+			}
+			selectedPart = null;
+		}
+	}
+
+	public void BPScreen() // Button pressed "Screen"
+	{
+		if (placePart)
+		{
+			selectedCharacterRef = GameManager.instance.playerCharacter;
+
+			var space = GetWorld2D().DirectSpaceState;
+
+			var query = new PhysicsShapeQueryParameters2D();
+
+			CircleShape2D shape = new CircleShape2D();
+
+			shape.Radius = placeRadius[placePartId];
+
+			query.Shape = shape;
+
+			query.CollisionMask = 8;
+
+			placePos = GetGlobalMousePosition();
+
+			query.Transform = new Transform2D(0, placePos);
+
+			var result = space.IntersectShape(query);
+
+			if (result.Count > 0)
+			{
+				
+				RigidBody2D part = (RigidBody2D)result[0]["collider"];
 
 				placePart = false;
 
@@ -348,7 +514,111 @@ public partial class CharacterCreator : Node2D
 				{
 					PlaceBeak(part);
 				}
-            }
+
+				currentTool = 0;
+			}
+		}
+		else if (currentTool == 3)
+		{
+			selectedCharacterRef = GameManager.instance.playerCharacter;
+
+			var space = GetWorld2D().DirectSpaceState;
+
+			var query = new PhysicsPointQueryParameters2D();
+
+			query.CollisionMask = 16; // Visuals collision shapes
+
+			query.Position = GetGlobalMousePosition();
+
+			query.CollideWithAreas = true;
+
+			var result = space.IntersectPoint(query);
+
+			if (result.Count > 0)
+			{
+				int closest = 0;
+
+				for (int i = 1; i < result.Count; i++)
+				{
+					if (((CollisionObject2D)result[i]["collider"]).ZIndex > ((CollisionObject2D)result[closest]["collider"]).ZIndex)
+					{
+						closest = i;
+					}
+				}
+
+				// Select the part
+				CollisionObject2D selectedObject = (CollisionObject2D)result[closest]["collider"];
+
+				if (selectedObject.IsInGroup("SelectArea"))
+				{
+					selectedPart = (RigidBody2D)selectedObject.GetParent();
+				}
+				else
+				{
+					selectedPart = (RigidBody2D)selectedObject;
+				}
+				
+				GD.Print("Delete time!");
+
+				DeletePart(selectedPart);
+
+				selectedPart = null;
+			}
+		}
+	}
+
+	void DeletePart(RigidBody2D selectedPart)
+	{
+		var children = selectedPart.GetChildren();
+
+		Joint2D joint = null;
+
+		foreach (var child in children)
+		{
+			if (child.IsInGroup("Joint"))
+			{
+				joint = (Joint2D)child;
+			}
+		}
+
+		selectedCharacterRef.pinJoints.Remove(joint);
+
+		joint.QueueFree();
+
+		if (selectedPart.IsInGroup("Body"))
+		{
+			foreach (var child in children)
+			{
+				if (child.IsInGroup("Character"))
+				{
+					DeletePart((RigidBody2D)child);
+				}
+			}
+
+			selectedPart.GetParent().RemoveChild(selectedPart);
+			AddChild(selectedPart);
+
+			selectedCharacterRef.bodyParts.Remove((Body)selectedPart);
+			bodyPool.Add((Body)selectedPart);
+			selectedPart.Visible = false;
+		}
+		else if (selectedPart.IsInGroup("Leg"))
+		{
+			selectedCharacterRef.legs.Remove((Leg)selectedPart);
+			legPool.Add((Leg)selectedPart);
+			selectedPart.Visible = false;
+		}
+		else if (selectedPart.IsInGroup("Eye"))
+		{
+			selectedCharacterRef.bodyParts.Remove((Body)selectedPart);
+			eyePool.Add((Body)selectedPart);
+			selectedPart.Visible = false;
+		}
+		else if (selectedPart.IsInGroup("Beak"))
+		{
+			selectedCharacterRef.bodyParts.Remove((Body)selectedPart);
+			beakPool.Add((Body)selectedPart);
+			selectedPart.Visible = false;
 		}
 	}
 
@@ -372,6 +642,7 @@ public partial class CharacterCreator : Node2D
 		//joint.Stiffness = 64;
 		//joint.Bias = 0.9f;
 		//joint.Damping = 16f;
+		joint.AddToGroup("Joint");
 		selectedCharacterRef.pinJoints.Add(joint);
     }
 
@@ -391,6 +662,8 @@ public partial class CharacterCreator : Node2D
 
 		joint.Position = new Vector2(0,0);
 		joint.DisableCollision = false;
+
+		joint.AddToGroup("Joint");
 		selectedCharacterRef.pinJoints.Add(joint);
     }
 
@@ -415,6 +688,7 @@ public partial class CharacterCreator : Node2D
 
 		joint.ConnectNodes(_part, beak);
 
+		joint.AddToGroup("Joint");
 		selectedCharacterRef.pinJoints.Add(joint);
     }
 
@@ -432,6 +706,7 @@ public partial class CharacterCreator : Node2D
 
 		joint.Softness = 0.1f;
 
+		joint.AddToGroup("Joint");
         selectedCharacterRef.pinJoints.Add(joint);
 
         if (_backLeg)
@@ -439,6 +714,7 @@ public partial class CharacterCreator : Node2D
 			leg.SetBackLeg();
 		}
 
+		leg.SetCharacter(selectedCharacterRef);
 		leg.attached = true;
     }
 
@@ -449,5 +725,37 @@ public partial class CharacterCreator : Node2D
 		hud.Visible = false;
 
 		GameManager.instance.SetMode(Mode.PlayMode);
+	}
+
+	public void BPToolSelected(int _toolId)
+	{
+		currentTool = _toolId;
+
+		placePart = false;
+
+		UpdateToolText();
+	}
+
+	void UpdateToolText()
+	{
+		switch (currentTool)
+		{
+			case -1:
+				toolText.Text = "Current tool: Add part";
+				break;
+			case 0:
+				toolText.Text = "Current tool: Select";
+				break;
+			case 1:
+				toolText.Text = "Current tool: Move";
+				break;
+			case 2:
+				toolText.Text = "Current tool: Rotate";
+				break;
+			case 3:
+				//toolText.Text = "Current tool: Scale";
+				toolText.Text = "Current tool: Delete";
+				break;
+		}
 	}
 }

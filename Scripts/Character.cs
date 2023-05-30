@@ -10,6 +10,8 @@ public partial class Character : RigidBody2D
 
 	public int groundedLegs = 0;
 
+	public int groundedFeet = 0;
+
 	public PlayerState currentState;
 
 	float walkTimer;
@@ -31,10 +33,25 @@ public partial class Character : RigidBody2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		// foreach (Body part in decorParts)
-		// {
-		// 	part.Rotation = ((RigidBody2D)part.GetParent()).Rotation;
-		// }
+		groundedFeet = 0;
+		foreach (var leg in legs)
+		{
+			if (leg.GetFootGrounded())
+			{
+				groundedFeet++;
+			}
+		}
+
+		groundedLegs = 0;
+		foreach (var leg in legs)
+		{
+			if (leg.GetGrounded())
+			{
+				groundedLegs++;
+			}
+		}
+
+		GD.Print($"Grounded legs: {groundedLegs}");
 	}
 
 	public override void _PhysicsProcess(double delta)

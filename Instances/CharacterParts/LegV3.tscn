@@ -589,3 +589,11 @@ metadata/_local_pose_override_enabled_ = true
 
 [node name="EndPoint" type="Node2D" parent="Skeleton2D/ThighBone/ShinBone/FootBone"]
 position = Vector2(22.3987, 4.14421)
+
+[node name="SelectArea" type="Area2D" parent="." groups=["SelectArea"]]
+z_index = 1
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="SelectArea"]
+polygon = PackedVector2Array(-13, 7, -14, -5, -6, -14, 11, -13, 15, -4, 13, 11, 15, 33, 17, 39, 16, 45, 12, 50, 6, 74, 9, 81, 22, 84, 21, 88, -5, 89, -7, 84, -3, 61, -3, 50, 4, 39)

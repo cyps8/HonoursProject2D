@@ -11,7 +11,7 @@ rough = true
 radius = 50.01
 
 [node name="Character" type="RigidBody2D" groups=["Body", "Character"]]
-collision_layer = 10
+collision_layer = 26
 mass = 1.2
 physics_material_override = SubResource("PhysicsMaterial_dsa0n")
 lock_rotation = true

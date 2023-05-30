@@ -10,15 +10,16 @@ config_version=5
 
 [application]
 
-config/name="HonoursPrototype2D"
+config/name="Cypore"
 run/main_scene="res://Scenes/Master.tscn"
-config/features=PackedStringArray("4.0", "C#", "Forward Plus")
+config/features=PackedStringArray("4.0", "Forward Plus")
 config/icon="res://Assets/Art/Misc/icon.svg"
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/mode=3
 window/size/borderless=true
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
