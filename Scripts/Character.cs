@@ -51,7 +51,7 @@ public partial class Character : RigidBody2D
 			}
 		}
 
-		GD.Print($"Grounded legs: {groundedLegs}");
+		//GD.Print($"Grounded legs: {groundedLegs}");
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -95,7 +95,7 @@ public partial class Character : RigidBody2D
 			bodyPart.Freeze = false;
 		}
 
-        foreach (var leg in legs)
+		foreach (var leg in legs)
 		{
 			leg.Freeze = false;
 		}
@@ -105,12 +105,12 @@ public partial class Character : RigidBody2D
 	{
 		Freeze = true;
 
-        foreach (RigidBody2D bodyPart in bodyParts)
-        {
-            bodyPart.Freeze = true;
-        }
+		foreach (RigidBody2D bodyPart in bodyParts)
+		{
+			bodyPart.Freeze = true;
+		}
 
-        foreach (var leg in legs)
+		foreach (var leg in legs)
 		{
 			leg.Freeze = true;
 		}
@@ -125,21 +125,36 @@ public partial class Character : RigidBody2D
 
 	public void ResetPose()
 	{
-        Freeze = true;
+		Freeze = true;
 
 		Rotation = 0;
 
-        foreach (Body bodyPart in bodyParts)
-        {
-            bodyPart.Freeze = true;
+		foreach (Body bodyPart in bodyParts)
+		{
+			bodyPart.Freeze = true;
 			bodyPart.Rotation = 0;
 			bodyPart.ReturnToOrigin();
-        }
+		}
 
-        foreach (var leg in legs)
-        {
-            leg.Freeze = true;
+		foreach (var leg in legs)
+		{
+			leg.Freeze = true;
 			leg.Rotation = 0;
-        }
-    }
+		}
+	}
+
+	public void Paint(Color color)
+	{
+		var children = GetChildren();
+
+		foreach (var child in children)
+		{
+			if (child.IsInGroup("Paintable"))
+			{
+				((Sprite2D)child).Modulate = color;
+			}
+		}
+
+		GD.Print("Main Painted!!");
+	}
 }

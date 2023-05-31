@@ -7,9 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://dopdyobkhw8v8" path="res://Assets/Art/Environment/grass.png" id="5_sj7d5"]
 [ext_resource type="Texture2D" uid="uid://bds21uiq3cnsj" path="res://Assets/Art/UI/Logo.png" id="6_pyfp1"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("returnLabel")]
 script = ExtResource("1_txsvc")
 characterIns = ExtResource("2_6fq4t")
+returnLabel = NodePath("HUD/Label")
 
 [node name="CharacterCreator" parent="." instance=ExtResource("3_5p6vx")]
 position = Vector2(130, 182)
@@ -835,3 +836,18 @@ offset_bottom = 1047.0
 rotation = -0.277507
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("6_pyfp1")
+
+[node name="Label" type="Label" parent="HUD"]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -121.0
+offset_top = -167.0
+offset_right = 129.0
+offset_bottom = -141.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "PRESS 'R' TO RETURN TO EDITOR"

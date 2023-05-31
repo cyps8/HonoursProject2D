@@ -12,7 +12,7 @@ radius = 12.1655
 
 [node name="Character" type="RigidBody2D" groups=["Character", "Eye"]]
 z_index = 1
-collision_layer = 26
+collision_layer = 58
 mass = 0.05
 physics_material_override = SubResource("PhysicsMaterial_dsa0n")
 freeze = true

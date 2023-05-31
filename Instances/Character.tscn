@@ -6,15 +6,15 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_5qgql"]
 radius = 50.01
 
-[node name="Character" type="RigidBody2D" groups=["Body", "Character"]]
-collision_layer = 10
+[node name="Character" type="RigidBody2D" groups=["Body", "Character", "MainPart"]]
+collision_layer = 42
 mass = 1.2
 center_of_mass_mode = 1
 center_of_mass = Vector2(-20, 50)
 freeze = true
 script = ExtResource("1_uchlq")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." groups=["Paintable"]]
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("1_qcyd1")
 

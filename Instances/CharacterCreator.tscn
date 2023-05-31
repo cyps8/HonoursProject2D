@@ -169,6 +169,20 @@ offset_right = 153.0
 offset_bottom = 3.0
 text = "Current tool: Select"
 
+[node name="ColorPickerButton" type="ColorPickerButton" parent="HUD/Tools"]
+offset_left = 3.0
+offset_top = 255.0
+offset_right = 61.0
+offset_bottom = 305.0
+
+[node name="Button" type="Button" parent="HUD/Tools"]
+layout_mode = 0
+offset_left = -5.0
+offset_top = 324.0
+offset_right = 67.0
+offset_bottom = 355.0
+text = "Clear All"
+
 [connection signal="button_down" from="HUD/ButtonScreen" to="." method="BPScreenDown"]
 [connection signal="button_up" from="HUD/ButtonScreen" to="." method="BPScreenUp"]
 [connection signal="pressed" from="HUD/ButtonScreen" to="." method="BPScreen"]
@@ -182,3 +196,6 @@ text = "Current tool: Select"
 [connection signal="pressed" from="HUD/Tools/GridContainer/ToolButton2" to="." method="BPToolSelected" binds= [1]]
 [connection signal="pressed" from="HUD/Tools/GridContainer/ToolButton3" to="." method="BPToolSelected" binds= [2]]
 [connection signal="pressed" from="HUD/Tools/GridContainer/ToolButton4" to="." method="BPToolSelected" binds= [3]]
+[connection signal="color_changed" from="HUD/Tools/ColorPickerButton" to="." method="ColourPicked"]
+[connection signal="pressed" from="HUD/Tools/ColorPickerButton" to="." method="BPToolSelected" binds= [4]]
+[connection signal="pressed" from="HUD/Tools/Button" to="." method="ClearAll"]

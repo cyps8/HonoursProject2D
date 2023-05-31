@@ -14,4 +14,17 @@ public partial class Body : RigidBody2D
 	{
 		Position = origin;
 	}
+
+	public void Paint(Color color)
+	{
+        var children = GetChildren();
+
+        foreach (var child in children)
+        {
+            if (child.IsInGroup("Paintable"))
+            {
+				((Sprite2D)child).Modulate = color;
+            }
+        }
+    }
 }

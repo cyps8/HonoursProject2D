@@ -52,7 +52,7 @@ public partial class Leg : RigidBody2D
 	{
 		footGrounded = _value;
 
-		GD.Print($"Foot grounded: {footGrounded}");
+		//GD.Print($"Foot grounded: {footGrounded}");
 	}
 
     public AnimationPlayer GetAnimationPlayer()
@@ -98,7 +98,7 @@ public partial class Leg : RigidBody2D
 			{
 				LinearVelocity = LinearVelocity.Normalized() * 400;
 
-				GD.Print("Damped");
+				//GD.Print("Damped");
 			}
 		}
 	}

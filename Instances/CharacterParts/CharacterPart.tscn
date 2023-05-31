@@ -11,14 +11,14 @@ rough = true
 radius = 50.01
 
 [node name="Character" type="RigidBody2D" groups=["Body", "Character"]]
-collision_layer = 26
+collision_layer = 58
 mass = 1.2
 physics_material_override = SubResource("PhysicsMaterial_dsa0n")
 lock_rotation = true
 freeze = true
 script = ExtResource("1_wqlw5")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." groups=["Paintable"]]
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_boo5j")
 
